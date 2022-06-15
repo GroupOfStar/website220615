@@ -27,6 +27,10 @@
             &.search {
               margin-right: 16px;
               border-radius: 14px;
+              :global(.ant-input-group-addon),
+              :global(.ant-input-search-button) {
+                background-color: unset;
+              }
             }
             :global(.ant-input) {
               background-color: unset;
@@ -44,7 +48,7 @@
     }
   }
   .body_warper {
-    background-color: #ccc;
+    background-color: #f9f9f9;
     .banner_img {
       height: 370px;
       padding: 46px 0;
@@ -54,10 +58,33 @@
     .body {
       max-width: 1000px;
       margin: -46px auto 0;
-      padding: 16px;
-      background-color: white;
-      .metting_img {
-        width: 100%;
+      .first_body_content {
+        background-color: white;
+        margin-bottom: 12px;
+        .metting_img {
+          width: 100%;
+          padding: 0 0 24px 24px;
+        }
+      }
+
+      .notice_content {
+        padding-left: 16px;
+        li {
+          color: #bababa;
+          .notice_item_warper {
+            padding: 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .notice_item_warper_title {
+              color: rgba(0, 0, 0, 0.85);
+              cursor: pointer;
+              &:hover {
+                color: black;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -80,5 +107,10 @@
       color: rgba(0, 0, 0, 0.45);
       font-size: 14px;
     }
+  }
+
+  .arrow_icon {
+    color: #dc313a;
+    margin-right: 8px;
   }
 }

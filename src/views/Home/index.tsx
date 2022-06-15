@@ -1,20 +1,55 @@
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Input,
-  Menu,
-  message,
-  Row,
-  Tag,
-} from 'ant-design-vue'
+import { Button, Card, Col, Form, Input, Menu, Row, Tag } from 'ant-design-vue'
+import { SendOutlined, MoreOutlined } from '@ant-design/icons-vue'
 import Logo from '@/assets/logo.png'
 import Meeting from '@/assets/meeting.jpg'
 import styles from './index.module.less'
+
+const Notices = [
+  { id: 1, title: '关于参加总行警示教育大会的通知', time: '2022.09.06' },
+  {
+    id: 2,
+    title: '关于展开屡查屡犯问题专项治理工作的通知',
+    time: '2022.09.06',
+  },
+  {
+    id: 3,
+    title: '关于做好2022年6月末评级覆盖率工作的通知',
+    time: '2022.09.07',
+  },
+  {
+    id: 4,
+    title: '关于分行团委、工会组织参加中信集团2022年夏...',
+    time: '2022.09.07',
+  },
+  {
+    id: 5,
+    title: '关于分行业加强企业疫情防控保障生产经营的通知',
+    time: '2022.09.08',
+  },
+  {
+    id: 6,
+    title: '关于做好2022年6月末评级覆盖率工作的通知',
+    time: '2022.09.07',
+  },
+  {
+    id: 7,
+    title: '关于分行团委、工会组织参加中信集团2022年夏...',
+    time: '2022.09.07',
+  },
+  {
+    id: 8,
+    title: '关于分行业加强企业疫情防控保障生产经营的通知',
+    time: '2022.09.08',
+  },
+  {
+    id: 9,
+    title: '关于分行业加强企业疫情防控保障生产经营的通知',
+    time: '2022.09.08',
+  },
+]
 
 export default defineComponent({
   name: 'Home',
@@ -122,21 +157,199 @@ export default defineComponent({
         <div class={styles.body_warper}>
           <div class={styles.banner_img} />
           <div class={styles.body}>
-            <Row gutter={24}>
-              <Col span={24}>
-                <Tag>领导分工</Tag>
-                <Tag>领导动态</Tag>
-                <Tag>行长信箱</Tag>
-                <Tag>人事任免</Tag>
-                <Tag>大事记</Tag>
-                <Tag>利率管理</Tag>
-                <Tag>通讯录</Tag>
-              </Col>
+            <div class={styles.first_body_content}>
+              <Row gutter={24}>
+                <Col span={24}>
+                  <Card bordered={false}>
+                    <Tag>领导分工</Tag>
+                    <Tag>领导动态</Tag>
+                    <Tag>行长信箱</Tag>
+                    <Tag>人事任免</Tag>
+                    <Tag>大事记</Tag>
+                    <Tag>利率管理</Tag>
+                    <Tag>通讯录</Tag>
+                  </Card>
+                </Col>
+                <Col span={12}>
+                  <img src={Meeting} alt="会议" class={styles.metting_img} />
+                </Col>
+
+                {/* 通知公告 */}
+                <Col span={12}>
+                  <Card
+                    size="small"
+                    bordered={false}
+                    title={
+                      <>
+                        <SendOutlined class={styles.arrow_icon} />
+                        通知公告
+                      </>
+                    }
+                    extra={
+                      <a href="#">
+                        更多
+                        <MoreOutlined />
+                      </a>
+                    }
+                  >
+                    <ul class={styles.notice_content}>
+                      {Notices.map(item => (
+                        <li key={item.id}>
+                          <div class={styles.notice_item_warper}>
+                            <div class={styles.notice_item_warper_title}>
+                              {item.title}
+                            </div>
+                            <div class={styles.notice_item_warper_time}>
+                              {item.time}
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </Card>
+                </Col>
+              </Row>
+            </div>
+
+            <Row gutter={[12, 12]}>
+              {/* 分行聚焦 */}
               <Col span={12}>
-                <img src={Meeting} alt="会议" class={styles.metting_img} />
+                <Card
+                  size="small"
+                  bordered={false}
+                  title={
+                    <>
+                      <SendOutlined class={styles.arrow_icon} />
+                      分行聚焦
+                    </>
+                  }
+                  extra={
+                    <a href="#">
+                      更多
+                      <MoreOutlined />
+                    </a>
+                  }
+                >
+                  <ul class={styles.notice_content}>
+                    {Notices.map(item => (
+                      <li key={item.id}>
+                        <div class={styles.notice_item_warper}>
+                          <div class={styles.notice_item_warper_title}>
+                            {item.title}
+                          </div>
+                          <div class={styles.notice_item_warper_time}>
+                            {item.time}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
               </Col>
+
+              {/* 领导讲话 */}
               <Col span={12}>
-                <Card title="通知公告">通知公告</Card>
+                <Card
+                  size="small"
+                  bordered={false}
+                  title={
+                    <>
+                      <SendOutlined class={styles.arrow_icon} />
+                      领导讲话
+                    </>
+                  }
+                  extra={
+                    <a href="#">
+                      更多
+                      <MoreOutlined />
+                    </a>
+                  }
+                >
+                  <ul class={styles.notice_content}>
+                    {Notices.map(item => (
+                      <li key={item.id}>
+                        <div class={styles.notice_item_warper}>
+                          <div class={styles.notice_item_warper_title}>
+                            {item.title}
+                          </div>
+                          <div class={styles.notice_item_warper_time}>
+                            {item.time}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </Col>
+
+              {/* 公司市场营销简报 */}
+              <Col span={12}>
+                <Card
+                  size="small"
+                  bordered={false}
+                  title={
+                    <>
+                      <SendOutlined class={styles.arrow_icon} />
+                      公司市场营销简报
+                    </>
+                  }
+                  extra={
+                    <a href="#">
+                      更多
+                      <MoreOutlined />
+                    </a>
+                  }
+                >
+                  <ul class={styles.notice_content}>
+                    {Notices.map(item => (
+                      <li key={item.id}>
+                        <div class={styles.notice_item_warper}>
+                          <div class={styles.notice_item_warper_title}>
+                            {item.title}
+                          </div>
+                          <div class={styles.notice_item_warper_time}>
+                            {item.time}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              </Col>
+
+              {/* 零售市场营销简报 */}
+              <Col span={12}>
+                <Card
+                  size="small"
+                  bordered={false}
+                  title={
+                    <>
+                      <SendOutlined class={styles.arrow_icon} />
+                      零售市场营销简报
+                    </>
+                  }
+                  extra={
+                    <a href="#">
+                      更多
+                      <MoreOutlined />
+                    </a>
+                  }
+                >
+                  <ul class={styles.notice_content}>
+                    {Notices.map(item => (
+                      <li key={item.id}>
+                        <div class={styles.notice_item_warper}>
+                          <div class={styles.notice_item_warper_title}>
+                            {item.title}
+                          </div>
+                          <div class={styles.notice_item_warper_time}>
+                            {item.time}
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
               </Col>
             </Row>
           </div>
