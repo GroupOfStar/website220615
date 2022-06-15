@@ -1,0 +1,84 @@
+.page_warpper {
+  min-height: 100vh;
+
+  .header_warper {
+    background-color: #323238ed;
+    .header_menu_warper {
+      max-width: 1000px;
+      margin: 0px auto;
+      .header {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .logo_warper {
+          .logo_img {
+            height: 32px;
+          }
+        }
+        .login_warper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .input {
+            width: 148px;
+            background-color: unset;
+            color: white;
+            &.search {
+              margin-right: 16px;
+              border-radius: 14px;
+            }
+            :global(.ant-input) {
+              background-color: unset;
+              color: white;
+            }
+            :global(.anticon) {
+              color: white;
+            }
+          }
+        }
+      }
+      .menu_warper {
+        background-color: unset;
+      }
+    }
+  }
+  .body_warper {
+    background-color: #ccc;
+    .banner_img {
+      height: 370px;
+      padding: 46px 0;
+      background: url('../../assets/banner.jpg') no-repeat;
+      background-position: center center;
+    }
+    .body {
+      max-width: 1000px;
+      margin: -46px auto 0;
+      padding: 16px;
+      background-color: white;
+      .metting_img {
+        width: 100%;
+      }
+    }
+  }
+
+  .footer {
+    padding: 24px 0px;
+    text-align: center;
+    .links {
+      margin-bottom: 8px;
+      font-size: 14px;
+      a {
+        color: rgba(0, 0, 0, 0.45);
+        transition: all 0.3s;
+        &:not(:last-child) {
+          margin-right: 40px;
+        }
+      }
+    }
+    .copyright {
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 14px;
+    }
+  }
+}
