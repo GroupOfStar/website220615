@@ -1,11 +1,12 @@
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from '@/store'
 import { Button, Card, Col, Form, Input, Menu, Row, Tag } from 'ant-design-vue'
-import { SendOutlined, MoreOutlined } from '@ant-design/icons-vue'
+import NewsCard from './NewsCard'
+import Footer from '@/components/Footer'
 import Logo from '@/assets/logo.png'
 import Meeting from '@/assets/meeting.jpg'
 import styles from './index.module.less'
+import ColorCard from './ColorCard'
 
 const Notices = [
   { id: 1, title: '关于参加总行警示教育大会的通知', time: '2022.09.06' },
@@ -51,12 +52,16 @@ const Notices = [
   },
 ]
 
+// 建党工作
+const partWorks = [
+  { id: 1, title: '机构客户部党支部联合零售银行', time: '2022.09.08' },
+  { id: 2, title: '分行办公室党支部联合警民党建', time: '2022.09.08' },
+]
+
 export default defineComponent({
   name: 'Home',
   setup() {
     const router = useRouter()
-
-    const store = useStore()
 
     const state = reactive({
       loading: false,
@@ -75,14 +80,13 @@ export default defineComponent({
 
     // 登录
     const handleFinish = () => {
-      const payload = {
-        loginId: state.loginForm.loginId,
-        password: btoa(state.loginForm.password),
-      }
-      state.loading = true
+      const { loginId, password } = state.loginForm
+      if (loginId === 'zhangsan' && password === 'zhangsan')
+        state.loading = true
       setTimeout(() => {
         state.loading = false
-      }, 1000)
+        router.push('/Myself')
+      }, 800)
     }
 
     return () => (
@@ -91,7 +95,7 @@ export default defineComponent({
         <div class={styles.header_warper}>
           <div class={styles.header_menu_warper}>
             <div class={styles.header}>
-              <div class={styles.logo_warper}>
+              <div class={styles.logo_warper} onClick={() => router.push('/')}>
                 <img class={styles.logo_img} src={Logo}></img>
               </div>
 
@@ -100,7 +104,6 @@ export default defineComponent({
                   v-model={[state.searchText, 'value']}
                   placeholder="请输入..."
                   onSearch={onSearch}
-                  // style="width: 148px; margin-right: 16px; background-color: unset;"
                   class={[styles.input, styles.search]}
                 />
                 <Form
@@ -176,37 +179,7 @@ export default defineComponent({
 
                 {/* 通知公告 */}
                 <Col span={12}>
-                  <Card
-                    size="small"
-                    bordered={false}
-                    title={
-                      <>
-                        <SendOutlined class={styles.arrow_icon} />
-                        通知公告
-                      </>
-                    }
-                    extra={
-                      <a href="#">
-                        更多
-                        <MoreOutlined />
-                      </a>
-                    }
-                  >
-                    <ul class={styles.notice_content}>
-                      {Notices.map(item => (
-                        <li key={item.id}>
-                          <div class={styles.notice_item_warper}>
-                            <div class={styles.notice_item_warper_title}>
-                              {item.title}
-                            </div>
-                            <div class={styles.notice_item_warper_time}>
-                              {item.time}
-                            </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </Card>
+                  <NewsCard title="通知公告" dataSource={Notices} />
                 </Col>
               </Row>
             </div>
@@ -214,159 +187,47 @@ export default defineComponent({
             <Row gutter={[12, 12]}>
               {/* 分行聚焦 */}
               <Col span={12}>
-                <Card
-                  size="small"
-                  bordered={false}
-                  title={
-                    <>
-                      <SendOutlined class={styles.arrow_icon} />
-                      分行聚焦
-                    </>
-                  }
-                  extra={
-                    <a href="#">
-                      更多
-                      <MoreOutlined />
-                    </a>
-                  }
-                >
-                  <ul class={styles.notice_content}>
-                    {Notices.map(item => (
-                      <li key={item.id}>
-                        <div class={styles.notice_item_warper}>
-                          <div class={styles.notice_item_warper_title}>
-                            {item.title}
-                          </div>
-                          <div class={styles.notice_item_warper_time}>
-                            {item.time}
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+                <NewsCard title="分行聚焦" dataSource={Notices} />
               </Col>
 
               {/* 领导讲话 */}
               <Col span={12}>
-                <Card
-                  size="small"
-                  bordered={false}
-                  title={
-                    <>
-                      <SendOutlined class={styles.arrow_icon} />
-                      领导讲话
-                    </>
-                  }
-                  extra={
-                    <a href="#">
-                      更多
-                      <MoreOutlined />
-                    </a>
-                  }
-                >
-                  <ul class={styles.notice_content}>
-                    {Notices.map(item => (
-                      <li key={item.id}>
-                        <div class={styles.notice_item_warper}>
-                          <div class={styles.notice_item_warper_title}>
-                            {item.title}
-                          </div>
-                          <div class={styles.notice_item_warper_time}>
-                            {item.time}
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+                <NewsCard title="领导讲话" dataSource={Notices} />
               </Col>
 
               {/* 公司市场营销简报 */}
               <Col span={12}>
-                <Card
-                  size="small"
-                  bordered={false}
-                  title={
-                    <>
-                      <SendOutlined class={styles.arrow_icon} />
-                      公司市场营销简报
-                    </>
-                  }
-                  extra={
-                    <a href="#">
-                      更多
-                      <MoreOutlined />
-                    </a>
-                  }
-                >
-                  <ul class={styles.notice_content}>
-                    {Notices.map(item => (
-                      <li key={item.id}>
-                        <div class={styles.notice_item_warper}>
-                          <div class={styles.notice_item_warper_title}>
-                            {item.title}
-                          </div>
-                          <div class={styles.notice_item_warper_time}>
-                            {item.time}
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+                <NewsCard title="公司市场营销简报" dataSource={Notices} />
               </Col>
 
               {/* 零售市场营销简报 */}
               <Col span={12}>
-                <Card
-                  size="small"
-                  bordered={false}
-                  title={
-                    <>
-                      <SendOutlined class={styles.arrow_icon} />
-                      零售市场营销简报
-                    </>
-                  }
-                  extra={
-                    <a href="#">
-                      更多
-                      <MoreOutlined />
-                    </a>
-                  }
-                >
-                  <ul class={styles.notice_content}>
-                    {Notices.map(item => (
-                      <li key={item.id}>
-                        <div class={styles.notice_item_warper}>
-                          <div class={styles.notice_item_warper_title}>
-                            {item.title}
-                          </div>
-                          <div class={styles.notice_item_warper_time}>
-                            {item.time}
-                          </div>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
+                <NewsCard title="零售市场营销简报" dataSource={Notices} />
               </Col>
             </Row>
+
+            <div class={styles.color_card_warper}>
+              <ColorCard
+                title="建党工作"
+                dataSource={partWorks}
+                bgColor="#a25f69"
+              />
+              <ColorCard
+                title="光荣榜"
+                dataSource={partWorks}
+                bgColor="#9E834B"
+              />
+              <ColorCard
+                title="规章制度"
+                dataSource={partWorks}
+                bgColor="#435FA0"
+              />
+            </div>
           </div>
         </div>
 
         {/* 页脚 */}
-        <div class={styles.footer}>
-          <div class={styles.links}>
-            <a>帮助</a>
-            <a>隐私</a>
-            <a>条款</a>
-          </div>
-          <div class={styles.copyright}>
-            Copyright &copy; 2001-2021 版权所有
-            软通动力信息技术（集团）股份有限公司
-          </div>
-        </div>
+        <Footer />
       </div>
     )
   },

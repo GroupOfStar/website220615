@@ -9,12 +9,13 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
+    "@antv/g2plot": "^2.4.19",
     "ant-design-vue": "^3.2.7",
     "axios": "^0.26.0",
     "fsevents": "*",
     "moment": "^2.29.1",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.25",
+    "vue": "^3.2.37",
     "vue-router": "^4.0.13",
     "vuex": "^4.0.2"
   },

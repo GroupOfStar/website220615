@@ -3,23 +3,26 @@ import { useRouter } from 'vue-router'
 import { useStore } from '@/store'
 import {
   Avatar,
-  Button,
   Card,
   Col,
   Divider,
-  Form,
-  Input,
+  Dropdown,
+  Empty,
   Menu,
+  Progress,
   Radio,
   Row,
   Timeline,
   Typography,
 } from 'ant-design-vue'
 import {
-  SendOutlined,
-  CommentOutlined,
+  LogoutOutlined,
   RightOutlined,
+  UserOutlined,
 } from '@ant-design/icons-vue'
+import ChartLine from './ChartLine'
+import Vacation from './Vacation'
+import Footer from '@/components/Footer'
 import Logo from '@/assets/logo.png'
 import {
   Buqian,
@@ -33,8 +36,8 @@ import {
   Zhaopin,
   Gengduo,
   Wenjianchakan,
+  Myself,
 } from '@/assets/icons/index'
-import Meeting from '@/assets/meeting.jpg'
 import styles from './index.module.less'
 
 // 待办事项列表
@@ -52,7 +55,7 @@ const todoList = [
   },
 ]
 
-//
+// 功能数据
 const ActionIcons: IStatusEnum[] = [
   { title: '考勤查询', value: 'kaoqin', icon: Kaoqin },
   { title: '申请公出', value: 'gongchu', icon: Gongchu },
@@ -90,16 +93,9 @@ export default defineComponent({
       console.log('val :>> ', val)
     }
 
-    // 登录
-    const handleFinish = () => {
-      const payload = {
-        loginId: state.loginForm.loginId,
-        password: btoa(state.loginForm.password),
-      }
-      state.loading = true
-      setTimeout(() => {
-        state.loading = false
-      }, 1000)
+    // 退出登录
+    const onLogoutClick = () => {
+      console.log('onLogoutClick')
     }
 
     // 工具点击
@@ -110,171 +106,194 @@ export default defineComponent({
     return () => (
       <div class={styles.page_warpper}>
         {/* 页头 */}
-        {/* <div class={styles.header_warper}>
+        <div class={styles.header_warper}>
           <div class={styles.header_menu_warper}>
             <div class={styles.header}>
-              <div class={styles.logo_warper}>
-                <img class={styles.logo_img} src={Logo}></img>
+              <img
+                class={styles.logo_img}
+                src={Logo}
+                onClick={() => router.push('/')}
+              />
+              <div class={styles.myself_content}>
+                <div class={styles.myself_icon}>
+                  <img src={Myself} />
+                </div>
+                <div class={styles.myself_title}>我自己</div>
               </div>
 
-              <div class={styles.login_warper}>
-                <Input.Search
-                  v-model={[state.searchText, 'value']}
-                  placeholder="请输入..."
-                  onSearch={onSearch}
-                  // style="width: 148px; margin-right: 16px; background-color: unset;"
-                  class={[styles.input, styles.search]}
-                />
-                <Form
-                  layout="inline"
-                  model={state.loginForm}
-                  onFinish={handleFinish}
-                >
-                  <Form.Item name="loginId">
-                    <Input
-                      v-model={[state.loginForm.loginId, 'value']}
-                      placeholder="用户名"
-                      class={styles.input}
-                    />
-                  </Form.Item>
-                  <Form.Item name="password">
-                    <Input.Password
-                      v-model={[state.loginForm.password, 'value']}
-                      type="password"
-                      placeholder="密码"
-                      class={styles.input}
-                    />
-                  </Form.Item>
-                  <Form.Item style={{ marginRight: 0 }}>
-                    <Button
-                      block
-                      type="primary"
-                      htmlType="submit"
-                      loading={state.loading}
-                    >
-                      请登录
-                    </Button>
-                  </Form.Item>
-                </Form>
-              </div>
+              <Dropdown placement="bottomRight">
+                {{
+                  default: () => (
+                    <div class={styles.account_avatar}>
+                      <span>张三</span>
+                      <Avatar src="https://joeschmoe.io/api/v1/random" />
+                    </div>
+                  ),
+                  overlay: () => (
+                    <Menu mode="horizontal">
+                      <Menu.Item key="logout" onClick={onLogoutClick}>
+                        <span class={styles.menu_item_content}>
+                          <LogoutOutlined />
+                          <span>退出登录</span>
+                        </span>
+                      </Menu.Item>
+                    </Menu>
+                  ),
+                }}
+              </Dropdown>
             </div>
-            <Menu
-              v-model={[state.currentMenu, 'selectedKeys']}
-              mode="horizontal"
-              theme="dark"
-              class={styles.menu_warper}
-            >
-              <Menu.Item key="1">首页</Menu.Item>
-              <Menu.Item key="2">部门主页</Menu.Item>
-              <Menu.Item key="3">分行链接</Menu.Item>
-              <Menu.Item key="4">相关网站</Menu.Item>
-              <Menu.Item key="5">内容管理</Menu.Item>
-              <Menu.Item key="6">总行网站</Menu.Item>
-              <Menu.Item key="7">旧版内联网</Menu.Item>
-            </Menu>
           </div>
-        </div> */}
+        </div>
 
         {/* 页体 */}
         <div class={styles.body_warper}>
-          <Row gutter={12}>
-            <Col span={12}>
-              <Card title="待办事项" size="small" bordered={false}>
-                <div class={styles.todo_action}>
-                  <div>
-                    <Radio.Group
-                      v-model={[state.toDoState, 'value']}
-                      buttonStyle="solid"
-                    >
-                      <Radio.Button value="1">待办</Radio.Button>
-                      <Radio.Button value="2">已办</Radio.Button>
-                    </Radio.Group>
-                  </div>
-                  <div>
-                    <a href="#">更多</a>
-                    <Divider type="vertical" />
-                    <a href="#">Web消息</a>
-                    <Divider type="vertical" />
-                    <a href="#">公告信息</a>
-                  </div>
-                </div>
-                <div class={styles.todo_list}>
-                  {todoList.map(item => (
-                    <div key={item.id} class={styles.todo_item}>
-                      <span class={styles.todo_item_title}>{item.title}</span>
-                      <div class={styles.todo_item_other}>
-                        <div class={styles.todo_item_time}>{item.time}</div>
-                        <RightOutlined />
+          <div class={styles.in_body_top}>
+            <Row gutter={12}>
+              <Col span={12}>
+                <div class={styles.todo_warper}>
+                  <Card title="待办事项" size="small" bordered={false}>
+                    <div class={styles.todo_action}>
+                      <div>
+                        <Radio.Group
+                          v-model={[state.toDoState, 'value']}
+                          buttonStyle="solid"
+                        >
+                          <Radio.Button value="1">待办</Radio.Button>
+                          <Radio.Button value="2">已办</Radio.Button>
+                        </Radio.Group>
+                      </div>
+                      <div>
+                        <a href="#" class={styles.todo_action_btn}>更多</a>
+                        <Divider type="vertical" />
+                        <a href="#" class={styles.todo_action_btn}>Web消息</a>
+                        <Divider type="vertical" />
+                        <a href="#" class={styles.todo_action_btn}>公告信息</a>
                       </div>
                     </div>
-                  ))}
+                    <div class={styles.todo_list}>
+                      {todoList.map(item => (
+                        <div key={item.id} class={styles.todo_item}>
+                          <span class={styles.todo_item_title}>
+                            {item.title}
+                          </span>
+                          <div class={styles.todo_item_other}>
+                            <div class={styles.todo_item_time}>{item.time}</div>
+                            <div>
+                              <RightOutlined />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </Card>
                 </div>
-              </Card>
-            </Col>
-            <Col span={12}>
-              <Card title="自主服务" size="small" bordered={false}>
-                <Row gutter={[12, 24]}>
-                  {ActionIcons.map(item => (
-                    <Col key={item.value} span={6}>
-                      <div
-                        class={styles.service_item}
-                        onClick={() => onActionClick(item.value)}
-                      >
-                        <img src={item.icon as any}></img>
-                        <div>{item.title}</div>
-                      </div>
-                    </Col>
-                  ))}
-                </Row>
-              </Card>
-            </Col>
-          </Row>
+              </Col>
+              <Col span={12}>
+                <Card title="自主服务" size="small" bordered={false}>
+                  <Row gutter={[12, 24]}>
+                    {ActionIcons.map(item => (
+                      <Col key={item.value} span={6}>
+                        <div
+                          class={styles.service_item}
+                          onClick={() => onActionClick(item.value)}
+                        >
+                          <img src={item.icon as any}></img>
+                          <div>{item.title}</div>
+                        </div>
+                      </Col>
+                    ))}
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+          </div>
 
-          <Row>
-            <Col span={8}>
-              <Card title="成长历程">
-                <div class={styles.avatar_warper}>
-                  <Avatar size={108} src="https://joeschmoe.io/api/v1/random" />
-                  <div class={styles._avatar_info}>
-                    <Typography.Paragraph
-                      v-model={[state.userName, 'content']}
-                      editable
+          <div class={styles.in_body_bottom}>
+            <Row gutter={12}>
+              <Col span={8}>
+                <Card title="成长历程" size="small">
+                  <div class={styles.avatar_warper}>
+                    <Avatar
+                      size={108}
+                      src="https://joeschmoe.io/api/v1/random"
                     />
-                    <div>副总经理</div>
-                    <div>零售银行部</div>
+                    <div class={styles._avatar_info}>
+                      <Typography.Paragraph
+                        v-model={[state.userName, 'content']}
+                        editable
+                      />
+                      <div>副总经理</div>
+                      <div>零售银行部</div>
+                    </div>
                   </div>
-                </div>
 
-                <Timeline>
-                  <Timeline.Item color="green" class={styles.timeLine_item}>
-                    <div class={styles.time}>2015-09-01</div>
-                    <div class={styles.content}>Create a services site</div>
-                  </Timeline.Item>
-                  <Timeline.Item color="green" class={styles.timeLine_item}>
-                    <div class={styles.time}>2015-09-01</div>
-                    <div class={styles.content}>Create a services site</div>
-                  </Timeline.Item>
-                </Timeline>
-              </Card>
-            </Col>
-            <Col span={16}>
-              <Card title="我的公出">我的公出</Card>
-            </Col>
-          </Row>
+                  <Timeline>
+                    <Timeline.Item color="green" class={styles.timeLine_item}>
+                      <div class={styles.time}>2015-09-01</div>
+                      <div class={styles.content}>Create a services site</div>
+                    </Timeline.Item>
+                    <Timeline.Item color="green" class={styles.timeLine_item}>
+                      <div class={styles.time}>2015-09-01</div>
+                      <div class={styles.content}>Create a services site</div>
+                    </Timeline.Item>
+                  </Timeline>
+                </Card>
+              </Col>
+              <Col span={16}>
+                <Card title="我的公出" size="small">
+                  <ChartLine />
+                  <Row style={{ marginTop: '12px' }}>
+                    <Col span={8}>
+                      <Vacation title="2020" value="0" />
+                    </Col>
+                    <Col span={8}>
+                      <Vacation title="2021" value="4.5天+41小时" />
+                    </Col>
+                    <Col span={8}>
+                      <Vacation title="2022" value="3天+9小时" />
+                    </Col>
+                  </Row>
+                </Card>
+
+                <Card title="我的假期" size="small">
+                  <Row gutter={[12, 12]}>
+                    <Col span={24}>
+                      <Typography.Text type="secondary">
+                        年假剩余
+                      </Typography.Text>
+                      <Progress percent={100} format={() => <>10/10</>} />
+                    </Col>
+                    <Col span={24}>
+                      <Typography.Text type="secondary">
+                        调休假信息
+                      </Typography.Text>
+                      <Empty />
+                    </Col>
+                    <Col span={24}>
+                      <Typography.Text type="secondary">
+                        近三年休假统计
+                      </Typography.Text>
+                      <Row style={{ marginTop: '12px' }}>
+                        <Col span={8}>
+                          <Vacation title="2022" value="3天+0小时" />
+                        </Col>
+                        <Col span={8}>
+                          <Vacation title="2021" value="0" />
+                        </Col>
+                        <Col span={8}>
+                          <Vacation title="2020" value="0" />
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+            </Row>
+          </div>
         </div>
 
         {/* 页脚 */}
-        <div class={styles.footer}>
-          <div class={styles.links}>
-            <a>帮助</a>
-            <a>隐私</a>
-            <a>条款</a>
-          </div>
-          <div class={styles.copyright}>
-            Copyright &copy; 2001-2021 版权所有
-            软通动力信息技术（集团）股份有限公司
-          </div>
-        </div>
+        <Footer />
       </div>
     )
   },
