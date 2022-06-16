@@ -11,6 +11,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'stHome', // 首页
     component: () => import('../views/Home/index'),
   },
+  {
+    path: '/myself',
+    name: 'stMyself', // 我自己
+    component: () => import('../views/Myself/index'),
+  },
   // {
   //   path: '/login',
   //   name: 'dmLogin', // 登录页
