@@ -1,9 +1,10 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import router from '@/router'
 import { message } from 'ant-design-vue'
 
 export const baseURL = import.meta.env.VITE_BASE_URL as string
-export const DATA_SOURCE_BaseURL = import.meta.env.VITE_DATA_SOURCE_API as string
+export const DATA_SOURCE_BaseURL = import.meta.env
+  .VITE_DATA_SOURCE_API as string
 export const INTEGRATE_BaseURL = import.meta.env.VITE_INTEGRATE_API as string
 
 // 创建 axios 实例
@@ -34,10 +35,10 @@ const errorHandler = (error: { response: { data: any; status: number } }) => {
 }
 
 // request interceptor
-request.interceptors.request.use(config => {
+request.interceptors.request.use((config: AxiosRequestConfig) => {
   // 从 localstorage 获取 token
   const token = localStorage.getItem('ACCESS_TOKEN')
-  if (token) {
+  if (token && config.headers) {
     config.headers['Authorization'] = token
   }
   return config
