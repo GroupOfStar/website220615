@@ -1,8 +1,8 @@
 import { defineComponent, PropType } from 'vue'
 import { Button } from 'ant-design-vue'
 import styles from './index.module.less'
-import { INewsItem } from './interface'
 import List from '@/components/List'
+import { IListItem } from '@/components/List/interface'
 
 /** ColorCard组件propsType */
 const ColorCardPropsDefine = {
@@ -15,7 +15,7 @@ const ColorCardPropsDefine = {
     required: true,
   },
   dataSource: {
-    type: Object as PropType<Array<INewsItem>>,
+    type: Object as PropType<Array<IListItem>>,
     required: true,
   },
 } as const

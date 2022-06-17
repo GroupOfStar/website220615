@@ -1,51 +1,18 @@
 .page_warpper {
   min-height: 100vh;
-  background-color: rgb(58 23 106 / 0.9);
-  padding: 200px 16px 16px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+
+  .login_bgm {
+    width: 100%;
+  }
   .warpper {
-    width: 560px;
-    background-color: #fff;
-    padding: 0px 32px;
-    margin: 0px auto;
-    border-radius: 6px;
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 32px 0px;
-      .logo_img {
-        width: 64px;
-        height: 64px;
-      }
-      .title_name {
-        margin-left: 16px;
-        font-size: 30px;
-        font-weight: 700;
-      }
-    }
-
-    .login_form {
-      padding: 0px 32px;
-    }
-
-    .footer {
-      padding: 24px 0px;
-      text-align: center;
-      .links {
-        margin-bottom: 8px;
-        font-size: 14px;
-        a {
-          color: rgba(0, 0, 0, 0.45);
-          transition: all 0.3s;
-          &:not(:last-child) {
-            margin-right: 40px;
-          }
-        }
-      }
-      .copyright {
-        color: rgba(0, 0, 0, 0.45);
-        font-size: 14px;
-      }
-    }
+    width: 400px;
+    padding: 24px;
+    border-radius: 4px;
+    background-color: white;
   }
 }

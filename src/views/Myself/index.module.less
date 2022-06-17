@@ -14,7 +14,7 @@
         justify-content: space-between;
         .logo_img {
           cursor: pointer;
-          height: 32px;
+          height: 64px;
         }
 
         .myself_content {
@@ -79,29 +79,33 @@
     }
 
     .in_body_bottom {
-      .avatar_warper {
-        display: flex;
-        gap: 16px;
-        margin-bottom: 24px;
-        ._avatar_info {
-          :global(.ant-typography) {
-            font-size: 22px;
-            margin-bottom: 12px;
+      .growth_warper {
+        height: 100%;
+        background-color: white;
+        .avatar_warper {
+          display: flex;
+          gap: 16px;
+          margin-bottom: 24px;
+          ._avatar_info {
+            :global(.ant-typography) {
+              font-size: 22px;
+              margin-bottom: 12px;
+            }
           }
         }
-      }
 
-      .timeLine_item {
-        font-size: 12px;
-        .time {
-          color: #b6b6b6;
-          margin-bottom: 8px;
-        }
-        .content {
-          background-color: #f9f9f9;
-          border: 1px solid #f0f0f0;
-          border-radius: 4px;
-          padding: 8px;
+        .timeLine_item {
+          font-size: 12px;
+          .time {
+            color: #b6b6b6;
+            margin-bottom: 8px;
+          }
+          .content {
+            background-color: #f9f9f9;
+            border: 1px solid #f0f0f0;
+            border-radius: 4px;
+            padding: 8px;
+          }
         }
       }
     }
@@ -120,4 +124,12 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
+}
+
+// 个人简历弹窗头
+.user_head_warper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
 }

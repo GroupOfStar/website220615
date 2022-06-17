@@ -1,25 +1,27 @@
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from '@/store'
 import {
   Avatar,
+  Button,
   Card,
   Col,
+  Descriptions,
   Divider,
   Dropdown,
   Empty,
   Menu,
+  Modal,
   Progress,
-  Radio,
   Row,
+  Table,
   Timeline,
   Typography,
 } from 'ant-design-vue'
-import { LogoutOutlined, RightOutlined } from '@ant-design/icons-vue'
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons-vue'
 import ChartLine from './ChartLine'
 import Vacation from './Vacation'
 import Footer from '@/components/Footer'
-import Logo from '@/assets/logo.png'
+import { LogoLight } from '@/assets'
 import {
   Buqian,
   Kaoqin,
@@ -34,7 +36,7 @@ import {
   Wenjianchakan,
   Myself,
 } from '@/assets/icons/index'
-import { growthProcess, todoList } from './data'
+import { growthProcess, todoList, workExperiences } from './data'
 import styles from './index.module.less'
 import List from '@/components/List'
 
@@ -59,12 +61,20 @@ const todoTabList = [
   { key: '2', tab: '已办' },
 ]
 
+/** 工作经历columns */
+const tableColumns: ColumnProps = [
+  { title: '开始时间', dataIndex: 'startDate', width: 130, ellipsis: true },
+  { title: '结束时间', dataIndex: 'endDate', width: 130, ellipsis: true },
+  { title: '工作单位', dataIndex: 'workUnit', ellipsis: true },
+  { title: '任职部门', dataIndex: 'department', ellipsis: true },
+  { title: '岗位', dataIndex: 'post', ellipsis: true },
+  { title: '职级', dataIndex: 'rank', ellipsis: true },
+]
+
 export default defineComponent({
   name: 'Myself',
   setup() {
     const router = useRouter()
-
-    const store = useStore()
 
     const state = reactive({
       loading: false,
@@ -76,6 +86,7 @@ export default defineComponent({
       },
       currentMenu: ['1'],
       todoCurrentTab: '1',
+      modalVisible: true,
     })
 
     // 待办事项的tab切换
@@ -83,14 +94,27 @@ export default defineComponent({
       state.todoCurrentTab = key
     }
 
+    // 个人简历
+    const onUserInfoClick = () => {
+      state.modalVisible = true
+    }
+
     // 退出登录
     const onLogoutClick = () => {
-      console.log('onLogoutClick')
+      router.push('/login')
     }
 
     // 工具点击
     const onActionClick = (action: string) => {
       console.log('action :>> ', action)
+      if (action === 'wenjianchakan') {
+        window.open('/download', '_blank')
+      }
+    }
+
+    // 弹窗取消
+    const onModalCancel = () => {
+      state.modalVisible = false
     }
 
     return () => (
@@ -101,7 +125,7 @@ export default defineComponent({
             <div class={styles.header}>
               <img
                 class={styles.logo_img}
-                src={Logo}
+                src={LogoLight}
                 onClick={() => router.push('/')}
               />
               <div class={styles.myself_content}>
@@ -116,16 +140,28 @@ export default defineComponent({
                   default: () => (
                     <div class={styles.account_avatar}>
                       <span>张三</span>
-                      <Avatar src="https://joeschmoe.io/api/v1/random" />
+                      <Avatar
+                        shape="square"
+                        src="https://joeschmoe.io/api/v1/random"
+                      />
                     </div>
                   ),
                   overlay: () => (
                     <Menu mode="horizontal">
-                      <Menu.Item key="logout" onClick={onLogoutClick}>
-                        <span class={styles.menu_item_content}>
-                          <LogoutOutlined />
-                          <span>退出登录</span>
-                        </span>
+                      <Menu.Item
+                        key="userInfo"
+                        icon={<UserOutlined />}
+                        onClick={onUserInfoClick}
+                      >
+                        个人简历
+                      </Menu.Item>
+                      <Menu.Divider />
+                      <Menu.Item
+                        key="logout"
+                        icon={<LogoutOutlined style={{ color: 'red' }} />}
+                        onClick={onLogoutClick}
+                      >
+                        退出登录
                       </Menu.Item>
                     </Menu>
                   ),
@@ -193,35 +229,37 @@ export default defineComponent({
           <div class={styles.in_body_bottom}>
             <Row gutter={12}>
               <Col span={8}>
-                <Card title="成长历程" size="small">
-                  <div class={styles.avatar_warper}>
-                    <Avatar
-                      size={108}
-                      src="https://joeschmoe.io/api/v1/random"
-                    />
-                    <div class={styles._avatar_info}>
-                      <Typography.Paragraph
-                        v-model={[state.userName, 'content']}
-                        editable
+                <div class={styles.growth_warper}>
+                  <Card title="成长历程" size="small">
+                    <div class={styles.avatar_warper}>
+                      <Avatar
+                        size={108}
+                        src="https://joeschmoe.io/api/v1/random"
                       />
-                      <div>副总经理</div>
-                      <div>零售银行部</div>
+                      <div class={styles._avatar_info}>
+                        <Typography.Paragraph
+                          v-model={[state.userName, 'content']}
+                          editable
+                        />
+                        <div>副总经理</div>
+                        <div>零售银行部</div>
+                      </div>
                     </div>
-                  </div>
 
-                  <Timeline>
-                    {growthProcess.map(item => (
-                      <Timeline.Item
-                        key={item.id}
-                        color="green"
-                        class={styles.timeLine_item}
-                      >
-                        <div class={styles.time}>{item.time}</div>
-                        <div class={styles.content}>{item.title}</div>
-                      </Timeline.Item>
-                    ))}
-                  </Timeline>
-                </Card>
+                    <Timeline>
+                      {growthProcess.map(item => (
+                        <Timeline.Item
+                          key={item.id}
+                          color="green"
+                          class={styles.timeLine_item}
+                        >
+                          <div class={styles.time}>{item.time}</div>
+                          <div class={styles.content}>{item.title}</div>
+                        </Timeline.Item>
+                      ))}
+                    </Timeline>
+                  </Card>
+                </div>
               </Col>
               <Col span={16}>
                 <Card title="我的公出" size="small">
@@ -275,6 +313,66 @@ export default defineComponent({
             </Row>
           </div>
         </div>
+
+        <Modal
+          v-model={[state.modalVisible, 'visible']}
+          title="个人简历"
+          width={1000}
+          style="top: 20px"
+          onCancel={onModalCancel}
+          footer={<Button onClick={onModalCancel}>关闭</Button>}
+        >
+          <div class={styles.user_head_warper}>
+            <Avatar
+              size={64}
+              icon={<UserOutlined />}
+              src="https://joeschmoe.io/api/v1/random"
+            />
+            <div class={styles.user_info}>
+              <h2>{state.userName} 26403003444</h2>
+              <div>副总经理 零售银行部 大理分行</div>
+            </div>
+          </div>
+          <Card title="当前任职信息" size="small">
+            <Descriptions bordered size="small" column={2}>
+              <Descriptions.Item label="所属机构">大理分行</Descriptions.Item>
+              <Descriptions.Item label="所属部门">零售银行部</Descriptions.Item>
+              <Descriptions.Item label="在职状态">在岗</Descriptions.Item>
+              <Descriptions.Item label="所属岗位">副总经理</Descriptions.Item>
+              <Descriptions.Item label="职级">
+                二级分部门副总经理级
+              </Descriptions.Item>
+            </Descriptions>
+          </Card>
+
+          <Card title="工作经历" size="small" style={{ margin: '12px 0' }}>
+            <Table
+              rowKey="id"
+              size="small"
+              bordered
+              columns={tableColumns}
+              dataSource={workExperiences}
+              pagination={false}
+            />
+          </Card>
+
+          <Card title="合同信息" size="small">
+            <Descriptions bordered size="small" column={2}>
+              <Descriptions.Item label="合同编码">
+                EMPCON00093882
+              </Descriptions.Item>
+              <Descriptions.Item label="合同类型">劳动合同</Descriptions.Item>
+              <Descriptions.Item label="期限类型">固定期限</Descriptions.Item>
+              <Descriptions.Item label="合同状态">履行中</Descriptions.Item>
+              <Descriptions.Item label="生效日期">
+                2018年11月10日
+              </Descriptions.Item>
+              <Descriptions.Item label="终止日期">
+                2023年11月09日
+              </Descriptions.Item>
+            </Descriptions>
+          </Card>
+        </Modal>
 
         {/* 页脚 */}
         <Footer />

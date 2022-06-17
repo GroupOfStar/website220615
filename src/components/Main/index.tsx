@@ -23,7 +23,7 @@ import {
   UserOutlined,
   LayoutOutlined,
 } from '@ant-design/icons-vue'
-import Logo from '@/assets/logo.png'
+import { Logo } from '@/assets'
 import { useStore } from '@/store'
 import wxRequest from '@/utils/wxRequest'
 import styles from './index.module.less'

@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router'
 import {
   Button,
   Card,
+  Carousel,
   Col,
   Form,
   Input,
@@ -15,10 +16,15 @@ import { MoreOutlined } from '@ant-design/icons-vue'
 import List from '@/components/List'
 import { default as StCard } from '@/components/Card'
 import Footer from '@/components/Footer'
-import NewsCard from './NewsCard'
 import ColorCard from './ColorCard'
-import Logo from '@/assets/logo.png'
-import Meeting from '@/assets/meeting.jpg'
+import {
+  LogoDark,
+  Meeting,
+  Jiangzhuang01,
+  Jiangzhuang02,
+  Zonghanghuiyi01,
+  Zonghanghuiyi02,
+} from '@/assets'
 import {
   branchFocus,
   companyBriefing,
@@ -43,6 +49,16 @@ const dynamicTabList = [
   { key: '4', tab: '服务品质与文明办公' },
 ]
 
+/** 总行图片新闻 */
+const photoNews = [
+  { key: '1', tab: '总行图片新闻' },
+  { key: '2', tab: '总行通知公告' },
+  { key: '3', tab: '总行领导讲话' },
+  { key: '4', tab: '总行重要文件' },
+  { key: '5', tab: '总行工作动态' },
+  { key: '6', tab: '市场营销简报' },
+]
+
 export default defineComponent({
   name: 'Home',
   setup() {
@@ -52,11 +68,12 @@ export default defineComponent({
       loading: false,
       searchText: undefined,
       loginForm: {
-        userName: '',
+        userName: 'zhangsan',
         password: '',
       },
       currentMenu: ['1'],
       dynamicCurrentTab: '1',
+      photoCurrentTab: '1',
     })
 
     // 搜索
@@ -85,7 +102,7 @@ export default defineComponent({
           <div class={styles.header_menu_warper}>
             <div class={styles.header}>
               <div class={styles.logo_warper} onClick={() => router.push('/')}>
-                <img class={styles.logo_img} src={Logo}></img>
+                <img class={styles.logo_img} src={LogoDark}></img>
               </div>
 
               <div class={styles.login_warper}>
@@ -165,25 +182,18 @@ export default defineComponent({
 
                 {/* 会议图片 */}
                 <Col span={12}>
-                  <Card
-                    hoverable
-                    cover={
-                      <img
-                        src={Meeting}
-                        alt="会议"
-                        class={styles.meeting_img}
-                      />
-                    }
-                  />
+                  <Carousel autoplay>
+                    <img src={Meeting} alt="会议" class={styles.meeting_img} />
+                    <img src={Meeting} alt="会议" class={styles.meeting_img} />
+                    <img src={Meeting} alt="会议" class={styles.meeting_img} />
+                  </Carousel>
                 </Col>
 
                 {/* 通知公告 */}
                 <Col span={12}>
-                  <NewsCard
-                    title="通知公告"
-                    bordered={true}
-                    dataSource={notices}
-                  />
+                  <StCard title="通知公告" bordered>
+                    <List dataSource={notices} />
+                  </StCard>
                 </Col>
               </Row>
             </div>
@@ -191,28 +201,30 @@ export default defineComponent({
             <Row gutter={[12, 12]}>
               {/* 分行聚焦 */}
               <Col span={12}>
-                <NewsCard title="分行聚焦" dataSource={branchFocus} />
+                <StCard title="分行聚焦">
+                  <List dataSource={branchFocus} />
+                </StCard>
               </Col>
 
               {/* 领导讲话 */}
               <Col span={12}>
-                <NewsCard title="领导讲话" dataSource={leaderSpeech} />
+                <StCard title="领导讲话">
+                  <List dataSource={leaderSpeech} />
+                </StCard>
               </Col>
 
               {/* 公司市场营销简报 */}
               <Col span={12}>
-                <NewsCard
-                  title="公司市场营销简报"
-                  dataSource={companyBriefing}
-                />
+                <StCard title="公司市场营销简报">
+                  <List dataSource={companyBriefing} />
+                </StCard>
               </Col>
 
               {/* 零售市场营销简报 */}
               <Col span={12}>
-                <NewsCard
-                  title="零售市场营销简报"
-                  dataSource={retailBriefing}
-                />
+                <StCard title="零售市场营销简报">
+                  <List dataSource={retailBriefing} />
+                </StCard>
               </Col>
               <Col span={24}>
                 <div class={styles.color_card_warper}>
@@ -236,12 +248,16 @@ export default defineComponent({
 
               {/* 业绩榜 */}
               <Col span={12}>
-                <NewsCard title="业绩榜" dataSource={salesTop} />
+                <StCard title="业绩榜">
+                  <List dataSource={salesTop} />
+                </StCard>
               </Col>
 
               {/* 督办事项 */}
               <Col span={12}>
-                <NewsCard title="督办事项" dataSource={supervisionItems} />
+                <StCard title="督办事项">
+                  <List dataSource={supervisionItems} />
+                </StCard>
               </Col>
 
               {/* 合规动态 */}
@@ -273,8 +289,69 @@ export default defineComponent({
               {/* 荣誉之路 */}
               <Col span={24}>
                 <StCard title="荣誉之路">
-                  <List dataSource={dynamic1} />
+                  <div class={styles.honors_warper}>
+                    {Array.from({ length: 5 }, (_i, index) => (
+                      <Card
+                        hoverable
+                        key={index}
+                        bordered={false}
+                        cover={
+                          <img
+                            src={
+                              index % 2 === 0 ? Jiangzhuang01 : Jiangzhuang02
+                            }
+                          />
+                        }
+                        style="width: 240px"
+                      >
+                        <Card.Meta title="2020年度云南省最佳综合" />
+                      </Card>
+                    ))}
+                  </div>
                 </StCard>
+              </Col>
+
+              {/* 总行图片新闻 */}
+              <Col span={24}>
+                <Card
+                  size="small"
+                  bordered={false}
+                  tabList={photoNews}
+                  activeTabKey={state.photoCurrentTab}
+                  onTabChange={key => (state.photoCurrentTab = key)}
+                  tabBarExtraContent={
+                    <a href="#">
+                      更多
+                      <MoreOutlined />
+                    </a>
+                  }
+                >
+                  <Row gutter={24}>
+                    {Array.from({ length: 4 }, (_i, index) => (
+                      <Col span={6} key={index}>
+                        <Card
+                          hoverable
+                          bordered={false}
+                          cover={
+                            <img
+                              src={
+                                index % 2 === 0
+                                  ? Zonghanghuiyi01
+                                  : Zonghanghuiyi02
+                              }
+                            />
+                          }
+                          style="width: 240px"
+                        >
+                          <Card.Meta
+                            title="2022.06.09"
+                            description="中信银行召开2022年保密委员会会议"
+                          />
+                        </Card>
+                      </Col>
+                    ))}
+                  </Row>
+                </Card>
               </Col>
             </Row>
           </div>
