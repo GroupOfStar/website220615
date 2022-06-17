@@ -2,6 +2,7 @@ import { defineComponent, PropType } from 'vue'
 import { Button } from 'ant-design-vue'
 import styles from './index.module.less'
 import { INewsItem } from './interface'
+import List from '@/components/List'
 
 /** ColorCard组件propsType */
 const ColorCardPropsDefine = {
@@ -30,14 +31,11 @@ export default defineComponent({
         style={{ backgroundColor: props.bgColor }}
       >
         <div class={styles.color_card_title}>{props.title}</div>
-        <ul class={styles.color_card_content}>
-          {props.dataSource.map(item => (
-            <li key={item.id}>
-              <div class={styles.content_text}>{item.title}</div>
-              <div class={styles.content_time}>{item.time}</div>
-            </li>
-          ))}
-        </ul>
+        <List
+          dataSource={props.dataSource}
+          style="padding: 0 12px 0 28px;"
+          theme="dark"
+        />
         <div class={styles.color_card_action}>
           <Button ghost size="small">
             查看更多

@@ -1,0 +1,48 @@
+.st_list_ul {
+  padding-left: 16px;
+  list-style-type: disc;
+  .st_list_li {
+    width: 100%;
+    margin: 8px 0;
+    color: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+
+    // 黑暗主题
+    &.st_list_li_dark {
+      color: white;
+      .st_list_li_item {
+        .st_list_li_item_title,
+        .st_list_li_item_time {
+          color: white;
+        }
+      }
+    }
+
+    .st_list_li_item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      // 标题
+      .st_list_li_item_title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-right: 8px;
+        color: rgba(0, 0, 0, 0.9);
+        &:hover {
+          color: #1296db;
+          text-decoration: underline;
+        }
+      }
+
+      // 时间
+      .st_list_li_item_time {
+        display: flex;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.45);
+        word-break: keep-all;
+        gap: 4px;
+      }
+    }
+  }
+}

@@ -3,6 +3,7 @@ import { Card } from 'ant-design-vue'
 import styles from './index.module.less'
 import { MoreOutlined, SendOutlined } from '@ant-design/icons-vue'
 import { INewsItem } from './interface'
+import List from '@/components/List'
 
 /** NewsCard组件propsType */
 const NewsCardPropsDefine = {
@@ -13,6 +14,9 @@ const NewsCardPropsDefine = {
   dataSource: {
     type: Object as PropType<Array<INewsItem>>,
     required: true,
+  },
+  bordered: {
+    type: Boolean,
   },
 } as const
 
@@ -25,7 +29,7 @@ export default defineComponent({
       <div class={styles.new_com_warper}>
         <Card
           size="small"
-          bordered={false}
+          bordered={props.bordered}
           title={
             <>
               <SendOutlined class={styles.arrow_icon} />
@@ -39,18 +43,7 @@ export default defineComponent({
             </a>
           }
         >
-          <ul class={styles.notice_content}>
-            {props.dataSource.map(item => (
-              <li key={item.id}>
-                <div class={styles.notice_item_warper}>
-                  <div class={styles.notice_item_warper_title}>
-                    {item.title}
-                  </div>
-                  <div class={styles.notice_item_warper_time}>{item.time}</div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <List dataSource={props.dataSource} />
         </Card>
       </div>
     )

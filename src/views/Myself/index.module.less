@@ -24,6 +24,7 @@
           .myself_title {
             margin-left: 8px;
             color: #1296db;
+            cursor: default;
           }
         }
 
@@ -54,44 +55,13 @@
     margin: 24px auto 0;
     .in_body_top {
       margin-bottom: 12px;
+
+      // 待办事项
       .todo_warper {
         height: 100%;
         background-color: white;
-        .todo_action {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          .todo_action_btn {
-            color: #1296db;
-            font-size: 12px;
-          }
-        }
-        .todo_list {
-          padding-top: 12px;
-          .todo_item {
-            width: 100%;
-            margin: 8px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            .todo_item_title {
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              margin-right: 8px;
-              &:hover {
-                color: black;
-              }
-            }
-            .todo_item_other {
-              display: flex;
-              align-items: center;
-              color: #b6b6b6;
-              word-break: keep-all;
-              font-size: 12px;
-            }
-          }
+        .todo_action_btn {
+          color: #1296db;
         }
       }
 

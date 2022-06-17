@@ -1,61 +1,46 @@
 import { defineComponent, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { Button, Card, Col, Form, Input, Menu, Row, Tag } from 'ant-design-vue'
-import NewsCard from './NewsCard'
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Input,
+  Menu,
+  message,
+  Row,
+  Tag,
+} from 'ant-design-vue'
+import { MoreOutlined } from '@ant-design/icons-vue'
+import List from '@/components/List'
+import { default as StCard } from '@/components/Card'
 import Footer from '@/components/Footer'
+import NewsCard from './NewsCard'
+import ColorCard from './ColorCard'
 import Logo from '@/assets/logo.png'
 import Meeting from '@/assets/meeting.jpg'
+import {
+  branchFocus,
+  companyBriefing,
+  dynamic1,
+  dynamic2,
+  honourRoll,
+  leaderSpeech,
+  notices,
+  partyBuilding,
+  regulations,
+  retailBriefing,
+  salesTop,
+  supervisionItems,
+} from './data'
 import styles from './index.module.less'
-import ColorCard from './ColorCard'
 
-const Notices = [
-  { id: 1, title: '关于参加总行警示教育大会的通知', time: '2022.09.06' },
-  {
-    id: 2,
-    title: '关于展开屡查屡犯问题专项治理工作的通知',
-    time: '2022.09.06',
-  },
-  {
-    id: 3,
-    title: '关于做好2022年6月末评级覆盖率工作的通知',
-    time: '2022.09.07',
-  },
-  {
-    id: 4,
-    title: '关于分行团委、工会组织参加中信集团2022年夏...',
-    time: '2022.09.07',
-  },
-  {
-    id: 5,
-    title: '关于分行业加强企业疫情防控保障生产经营的通知',
-    time: '2022.09.08',
-  },
-  {
-    id: 6,
-    title: '关于做好2022年6月末评级覆盖率工作的通知',
-    time: '2022.09.07',
-  },
-  {
-    id: 7,
-    title: '关于分行团委、工会组织参加中信集团2022年夏...',
-    time: '2022.09.07',
-  },
-  {
-    id: 8,
-    title: '关于分行业加强企业疫情防控保障生产经营的通知',
-    time: '2022.09.08',
-  },
-  {
-    id: 9,
-    title: '关于分行业加强企业疫情防控保障生产经营的通知',
-    time: '2022.09.08',
-  },
-]
-
-// 建党工作
-const partWorks = [
-  { id: 1, title: '机构客户部党支部联合零售银行', time: '2022.09.08' },
-  { id: 2, title: '分行办公室党支部联合警民党建', time: '2022.09.08' },
+/** 合规动态区域TabList */
+const dynamicTabList = [
+  { key: '1', tab: '合规动态' },
+  { key: '2', tab: '培训专栏' },
+  { key: '3', tab: '新闻广角' },
+  { key: '4', tab: '服务品质与文明办公' },
 ]
 
 export default defineComponent({
@@ -67,10 +52,11 @@ export default defineComponent({
       loading: false,
       searchText: undefined,
       loginForm: {
-        loginId: '',
+        userName: '',
         password: '',
       },
       currentMenu: ['1'],
+      dynamicCurrentTab: '1',
     })
 
     // 搜索
@@ -80,13 +66,16 @@ export default defineComponent({
 
     // 登录
     const handleFinish = () => {
-      const { loginId, password } = state.loginForm
-      if (loginId === 'zhangsan' && password === 'zhangsan')
+      const { userName, password } = state.loginForm
+      if (userName === 'zhangsan' && password === 'zhangsan') {
         state.loading = true
-      setTimeout(() => {
-        state.loading = false
-        router.push('/Myself')
-      }, 800)
+        setTimeout(() => {
+          state.loading = false
+          router.push('/myself')
+        }, 800)
+      } else {
+        message.error('账号或密码错误！')
+      }
     }
 
     return () => (
@@ -111,9 +100,9 @@ export default defineComponent({
                   model={state.loginForm}
                   onFinish={handleFinish}
                 >
-                  <Form.Item name="loginId">
+                  <Form.Item name="userName">
                     <Input
-                      v-model={[state.loginForm.loginId, 'value']}
+                      v-model={[state.loginForm.userName, 'value']}
                       placeholder="用户名"
                       class={styles.input}
                     />
@@ -158,28 +147,43 @@ export default defineComponent({
 
         {/* 页体 */}
         <div class={styles.body_warper}>
+          {/* banner */}
           <div class={styles.banner_img} />
+
           <div class={styles.body}>
             <div class={styles.first_body_content}>
-              <Row gutter={24}>
+              <Row gutter={[12, 24]}>
                 <Col span={24}>
-                  <Card bordered={false}>
-                    <Tag>领导分工</Tag>
-                    <Tag>领导动态</Tag>
-                    <Tag>行长信箱</Tag>
-                    <Tag>人事任免</Tag>
-                    <Tag>大事记</Tag>
-                    <Tag>利率管理</Tag>
-                    <Tag>通讯录</Tag>
-                  </Card>
+                  <Tag>领导分工</Tag>
+                  <Tag>领导动态</Tag>
+                  <Tag>行长信箱</Tag>
+                  <Tag>人事任免</Tag>
+                  <Tag>大事记</Tag>
+                  <Tag>利率管理</Tag>
+                  <Tag>通讯录</Tag>
                 </Col>
+
+                {/* 会议图片 */}
                 <Col span={12}>
-                  <img src={Meeting} alt="会议" class={styles.metting_img} />
+                  <Card
+                    hoverable
+                    cover={
+                      <img
+                        src={Meeting}
+                        alt="会议"
+                        class={styles.meeting_img}
+                      />
+                    }
+                  />
                 </Col>
 
                 {/* 通知公告 */}
                 <Col span={12}>
-                  <NewsCard title="通知公告" dataSource={Notices} />
+                  <NewsCard
+                    title="通知公告"
+                    bordered={true}
+                    dataSource={notices}
+                  />
                 </Col>
               </Row>
             </div>
@@ -187,42 +191,92 @@ export default defineComponent({
             <Row gutter={[12, 12]}>
               {/* 分行聚焦 */}
               <Col span={12}>
-                <NewsCard title="分行聚焦" dataSource={Notices} />
+                <NewsCard title="分行聚焦" dataSource={branchFocus} />
               </Col>
 
               {/* 领导讲话 */}
               <Col span={12}>
-                <NewsCard title="领导讲话" dataSource={Notices} />
+                <NewsCard title="领导讲话" dataSource={leaderSpeech} />
               </Col>
 
               {/* 公司市场营销简报 */}
               <Col span={12}>
-                <NewsCard title="公司市场营销简报" dataSource={Notices} />
+                <NewsCard
+                  title="公司市场营销简报"
+                  dataSource={companyBriefing}
+                />
               </Col>
 
               {/* 零售市场营销简报 */}
               <Col span={12}>
-                <NewsCard title="零售市场营销简报" dataSource={Notices} />
+                <NewsCard
+                  title="零售市场营销简报"
+                  dataSource={retailBriefing}
+                />
+              </Col>
+              <Col span={24}>
+                <div class={styles.color_card_warper}>
+                  <ColorCard
+                    title="党建工作"
+                    dataSource={partyBuilding}
+                    bgColor="#a25f69"
+                  />
+                  <ColorCard
+                    title="光荣榜"
+                    dataSource={honourRoll}
+                    bgColor="#9E834B"
+                  />
+                  <ColorCard
+                    title="规章制度"
+                    dataSource={regulations}
+                    bgColor="#435FA0"
+                  />
+                </div>
+              </Col>
+
+              {/* 业绩榜 */}
+              <Col span={12}>
+                <NewsCard title="业绩榜" dataSource={salesTop} />
+              </Col>
+
+              {/* 督办事项 */}
+              <Col span={12}>
+                <NewsCard title="督办事项" dataSource={supervisionItems} />
+              </Col>
+
+              {/* 合规动态 */}
+              <Col span={24}>
+                <Card
+                  size="small"
+                  bordered={false}
+                  tabList={dynamicTabList}
+                  activeTabKey={state.dynamicCurrentTab}
+                  onTabChange={key => (state.dynamicCurrentTab = key)}
+                  tabBarExtraContent={
+                    <a href="#">
+                      更多
+                      <MoreOutlined />
+                    </a>
+                  }
+                >
+                  <Row gutter={24}>
+                    <Col span={12}>
+                      <List dataSource={dynamic1} />
+                    </Col>
+                    <Col span={12}>
+                      <List dataSource={dynamic2} />
+                    </Col>
+                  </Row>
+                </Card>
+              </Col>
+
+              {/* 荣誉之路 */}
+              <Col span={24}>
+                <StCard title="荣誉之路">
+                  <List dataSource={dynamic1} />
+                </StCard>
               </Col>
             </Row>
-
-            <div class={styles.color_card_warper}>
-              <ColorCard
-                title="建党工作"
-                dataSource={partWorks}
-                bgColor="#a25f69"
-              />
-              <ColorCard
-                title="光荣榜"
-                dataSource={partWorks}
-                bgColor="#9E834B"
-              />
-              <ColorCard
-                title="规章制度"
-                dataSource={partWorks}
-                bgColor="#435FA0"
-              />
-            </div>
           </div>
         </div>
 

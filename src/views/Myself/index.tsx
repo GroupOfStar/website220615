@@ -15,11 +15,7 @@ import {
   Timeline,
   Typography,
 } from 'ant-design-vue'
-import {
-  LogoutOutlined,
-  RightOutlined,
-  UserOutlined,
-} from '@ant-design/icons-vue'
+import { LogoutOutlined, RightOutlined } from '@ant-design/icons-vue'
 import ChartLine from './ChartLine'
 import Vacation from './Vacation'
 import Footer from '@/components/Footer'
@@ -38,22 +34,9 @@ import {
   Wenjianchakan,
   Myself,
 } from '@/assets/icons/index'
+import { growthProcess, todoList } from './data'
 import styles from './index.module.less'
-
-// 待办事项列表
-const todoList = [
-  {
-    id: 1,
-    title:
-      '昆明分行2021年员工违反行为管理规定考试昆明分行2021年员工违反行为管理规定考试',
-    time: '2022年6月16日',
-  },
-  {
-    id: 2,
-    title: '昆明分行2021年员工违反行为管理规定考试',
-    time: '2022年6月16日',
-  },
-]
+import List from '@/components/List'
 
 // 功能数据
 const ActionIcons: IStatusEnum[] = [
@@ -68,6 +51,12 @@ const ActionIcons: IStatusEnum[] = [
   { title: '内部招聘', value: 'zhaopin', icon: Zhaopin },
   { title: '文件查看', value: 'wenjianchakan', icon: Wenjianchakan },
   { title: '更多', value: 'gengduo', icon: Gengduo },
+]
+
+/** 待办事项的TabList */
+const todoTabList = [
+  { key: '1', tab: '待办' },
+  { key: '2', tab: '已办' },
 ]
 
 export default defineComponent({
@@ -86,11 +75,12 @@ export default defineComponent({
         password: '',
       },
       currentMenu: ['1'],
+      todoCurrentTab: '1',
     })
 
-    // 搜索
-    const onSearch = (val?: string) => {
-      console.log('val :>> ', val)
+    // 待办事项的tab切换
+    const onTodoTabChange = (key: string) => {
+      state.todoCurrentTab = key
     }
 
     // 退出登录
@@ -152,39 +142,31 @@ export default defineComponent({
               <Col span={12}>
                 <div class={styles.todo_warper}>
                   <Card title="待办事项" size="small" bordered={false}>
-                    <div class={styles.todo_action}>
-                      <div>
-                        <Radio.Group
-                          v-model={[state.toDoState, 'value']}
-                          buttonStyle="solid"
-                        >
-                          <Radio.Button value="1">待办</Radio.Button>
-                          <Radio.Button value="2">已办</Radio.Button>
-                        </Radio.Group>
-                      </div>
-                      <div>
-                        <a href="#" class={styles.todo_action_btn}>更多</a>
-                        <Divider type="vertical" />
-                        <a href="#" class={styles.todo_action_btn}>Web消息</a>
-                        <Divider type="vertical" />
-                        <a href="#" class={styles.todo_action_btn}>公告信息</a>
-                      </div>
-                    </div>
-                    <div class={styles.todo_list}>
-                      {todoList.map(item => (
-                        <div key={item.id} class={styles.todo_item}>
-                          <span class={styles.todo_item_title}>
-                            {item.title}
-                          </span>
-                          <div class={styles.todo_item_other}>
-                            <div class={styles.todo_item_time}>{item.time}</div>
-                            <div>
-                              <RightOutlined />
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <Card
+                      size="small"
+                      bordered={false}
+                      tabList={todoTabList}
+                      activeTabKey={state.todoCurrentTab}
+                      onTabChange={onTodoTabChange}
+                      tabBarExtraContent={
+                        <>
+                          <a href="#" class={styles.todo_action_btn}>
+                            更多
+                          </a>
+                          <Divider type="vertical" />
+                          <a href="#" class={styles.todo_action_btn}>
+                            Web消息
+                          </a>
+                          <Divider type="vertical" />
+                          <a href="#" class={styles.todo_action_btn}>
+                            公告信息
+                          </a>
+                        </>
+                      }
+                      class={styles.todo_warper}
+                    >
+                      <List showArrow dataSource={todoList} />
+                    </Card>
                   </Card>
                 </div>
               </Col>
@@ -228,14 +210,16 @@ export default defineComponent({
                   </div>
 
                   <Timeline>
-                    <Timeline.Item color="green" class={styles.timeLine_item}>
-                      <div class={styles.time}>2015-09-01</div>
-                      <div class={styles.content}>Create a services site</div>
-                    </Timeline.Item>
-                    <Timeline.Item color="green" class={styles.timeLine_item}>
-                      <div class={styles.time}>2015-09-01</div>
-                      <div class={styles.content}>Create a services site</div>
-                    </Timeline.Item>
+                    {growthProcess.map(item => (
+                      <Timeline.Item
+                        key={item.id}
+                        color="green"
+                        class={styles.timeLine_item}
+                      >
+                        <div class={styles.time}>{item.time}</div>
+                        <div class={styles.content}>{item.title}</div>
+                      </Timeline.Item>
+                    ))}
                   </Timeline>
                 </Card>
               </Col>
