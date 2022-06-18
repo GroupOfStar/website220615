@@ -10,6 +10,7 @@
   "dependencies": {
     "@ant-design/icons-vue": "^6.1.0",
     "@antv/g2plot": "^2.4.19",
+    "@pansy/watermark": "^2.2.1",
     "ant-design-vue": "^3.2.7",
     "axios": "^0.26.0",
     "fsevents": "*",

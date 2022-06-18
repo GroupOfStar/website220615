@@ -1,4 +1,11 @@
-import { defineComponent, onMounted, reactive } from 'vue'
+import {
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  reactive,
+  ref,
+  Ref,
+} from 'vue'
 import { useRouter } from 'vue-router'
 import {
   Avatar,
@@ -22,7 +29,7 @@ import ChartLine from './ChartLine'
 import Vacation from './Vacation'
 import Footer from '@/components/Footer'
 import List from '@/components/List'
-import { LogoLight } from '@/assets'
+import { LogoLight, IdPhoto } from '@/assets'
 import {
   Buqian,
   Kaoqin,
@@ -37,7 +44,8 @@ import {
   Wenjianchakan,
   Myself,
 } from '@/assets/icons/index'
-import watermark from '@/utils/watermark'
+// import watermark from '@/utils/watermark'
+import { Watermark } from '@pansy/watermark'
 import moment from 'moment'
 import { growthProcess, todoList, workExperiences } from './data'
 import styles from './index.module.less'
@@ -86,25 +94,69 @@ export default defineComponent({
       todoCurrentTab: '1',
       modalVisible: false,
     })
+    const watermark = ref<Watermark>()
+
+    // monitor?: boolean;
+    // /** 图片源，建议导出 2 倍或 3 倍图，优先使用图片渲染水印 */
+    // image?: string;
+    // /** 水印文本, 为数组时表示多行水印 */
+    // text?: string | string[];
+    // /** 盲水印文本 */
+    // blindText?: string;
+    // /** 盲水印文本大小 */
+    // blindFontSize?: string | number;
+    // /** 盲水印透明度 */
+    // blindOpacity?: number;
+    // /** 样式层级 */
+    // zIndex?: number;
+    // /** 是否使用水印组件包裹内容  */
+    // pack?: boolean;
+    // /** 水印挂载的容器 */
+    // container?: HTMLElement | string | null;
+    // /** 水印挂载的样式 */
+    // containerStyle?: Record<string, any>;
+    // /** 展示模式，interval表示错行展示 */
+    // mode?: 'repeat' | 'interval';
+    //  */
 
     onMounted(() => {
-      setTimeout(() => {
-        const root = document.getElementById('root')
-        if (root) {
-          watermark(root, {
-            text1: `${state.userName} ${moment().format(
-              'YYYY-MM-DD'
-            )} 10.18.24.274`,
-            text2: '',
-            color: 'black',
-            fontSize: 24,
-            space_x: 150,
-            space_y: 120,
-            width: 450,
-            alpha: 0.1, // 透明度
-          })
-        }
-      }, 500)
+      watermark.value = new Watermark({
+        container: 'root',
+        text: [state.userName, moment().format('YYYY-MM-DD'), '10.18.24.274'],
+        fontSize: 16,
+        gapX: 8,
+        gapY: 246,
+        // width: 500,
+        // height: 30,
+        fontColor: 'black',
+        opacity: 0.1,
+        zIndex: 999,
+      })
+      watermark.value.show()
+
+      // setTimeout(() => {
+      //   const root = document.getElementById('root')
+      //   if (root) {
+      //     watermark(root, {
+      //       text1: `${state.userName} ${moment().format(
+      //         'YYYY-MM-DD'
+      //       )} 10.18.24.274`,
+      //       text2: '',
+      //       color: 'black',
+      //       fontSize: 24,
+      //       space_x: 150,
+      //       space_y: 120,
+      //       width: 450,
+      //       alpha: 0.1, // 透明度
+      //     })
+      //   }
+      // }, 500)
+    })
+
+    onBeforeUnmount(() => {
+      if (watermark.value) {
+        watermark.value.destroy()
+      }
     })
 
     // 待办事项的tab切换
@@ -158,10 +210,7 @@ export default defineComponent({
                   default: () => (
                     <div class={styles.account_avatar}>
                       <span>{state.userName}</span>
-                      <Avatar
-                        shape="square"
-                        src="https://joeschmoe.io/api/v1/random"
-                      />
+                      <Avatar shape="square" src={IdPhoto} />
                     </div>
                   ),
                   overlay: () => (
@@ -250,10 +299,7 @@ export default defineComponent({
                 <div class={styles.growth_warper}>
                   <Card title="成长历程" size="small">
                     <div class={styles.avatar_warper}>
-                      <Avatar
-                        size={108}
-                        src="https://joeschmoe.io/api/v1/random"
-                      />
+                      <Avatar size={108} src={IdPhoto} />
                       <div class={styles._avatar_info}>
                         <Typography.Paragraph
                           v-model={[state.userName, 'content']}
@@ -341,11 +387,7 @@ export default defineComponent({
           footer={<Button onClick={onModalCancel}>关闭</Button>}
         >
           <div class={styles.user_head_warper}>
-            <Avatar
-              size={64}
-              icon={<UserOutlined />}
-              src="https://joeschmoe.io/api/v1/random"
-            />
+            <Avatar size={64} icon={<UserOutlined />} src={IdPhoto} />
             <div class={styles.user_info}>
               <h2>{state.userName} 26403003444</h2>
               <div>副总经理 零售银行部 大理分行</div>

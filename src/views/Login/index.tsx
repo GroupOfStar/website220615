@@ -24,12 +24,10 @@ export default defineComponent({
       if (loginPw === '123') {
         window.localStorage.setItem('userName', loginName || '')
         state.loading = true
-        setTimeout(() => {
+        message.success('登录成功！', 1, () => {
           state.loading = false
-          message.success('登录成功！', 1, () => {
-            router.push('/myself')
-          })
-        }, 500)
+          router.push('/myself')
+        })
       } else {
         message.error('用户名或密码错误！')
       }
