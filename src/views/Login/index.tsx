@@ -13,8 +13,8 @@ export default defineComponent({
     const state = reactive({
       loading: false,
       loginForm: {
-        loginName: 'zhangsan',
-        loginPw: '',
+        loginName: undefined,
+        loginPw: undefined,
       },
     })
 

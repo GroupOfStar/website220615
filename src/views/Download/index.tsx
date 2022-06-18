@@ -1,5 +1,5 @@
 import { Docx, Xlsx } from '@/assets/icons'
-import { Input, message, Modal, Space, Table, Typography } from 'ant-design-vue'
+import { Input, message, Modal, Space, Table } from 'ant-design-vue'
 import { ColumnType } from 'ant-design-vue/lib/table/interface'
 import { defineComponent, reactive } from 'vue'
 
@@ -141,7 +141,6 @@ export default defineComponent(function Download() {
           v-model={[state.pdValue, 'value']}
           placeholder="请输入下载密码.."
         />
-        <Typography.Text disabled>密码: 123</Typography.Text>
       </Modal>
     </div>
   )

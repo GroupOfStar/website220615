@@ -86,7 +86,7 @@ export default defineComponent({
       },
       currentMenu: ['1'],
       todoCurrentTab: '1',
-      modalVisible: true,
+      modalVisible: false,
     })
 
     // 待办事项的tab切换
@@ -135,7 +135,7 @@ export default defineComponent({
                 <div class={styles.myself_title}>我自己</div>
               </div>
 
-              <Dropdown placement="bottomRight">
+              <Dropdown placement="bottomRight" trigger={['click','hover']}>
                 {{
                   default: () => (
                     <div class={styles.account_avatar}>

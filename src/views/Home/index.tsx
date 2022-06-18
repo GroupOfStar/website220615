@@ -68,8 +68,8 @@ export default defineComponent({
       loading: false,
       searchText: undefined,
       loginForm: {
-        userName: 'zhangsan',
-        password: '',
+        userName: undefined,
+        password: undefined,
       },
       currentMenu: ['1'],
       dynamicCurrentTab: '1',
