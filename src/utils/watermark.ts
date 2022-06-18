@@ -31,7 +31,6 @@ export default function watermark(
   element: HTMLElement,
   config?: IWatermarkConfig
 ) {
-  console.log('element', element)
   if (!element) return
   // 替换默认配置
   const _config = Object.assign(
@@ -51,7 +50,6 @@ export default function watermark(
     },
     config
   )
-  console.log('_config', _config)
   // 获取元素的坐标
   const getOffset = (el: any): any => {
     if (el.offsetParent) {

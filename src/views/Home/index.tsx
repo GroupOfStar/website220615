@@ -84,12 +84,13 @@ export default defineComponent({
     // 登录
     const handleFinish = () => {
       const { userName, password } = state.loginForm
-      if (userName === 'zhangsan' && password === 'zhangsan') {
+      if (password === '123') {
+        window.localStorage.setItem('userName', userName || '')
         state.loading = true
         setTimeout(() => {
           state.loading = false
           router.push('/myself')
-        }, 800)
+        }, 500)
       } else {
         message.error('账号或密码错误！')
       }

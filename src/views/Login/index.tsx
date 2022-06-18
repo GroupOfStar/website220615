@@ -21,14 +21,15 @@ export default defineComponent({
     // 登录
     const handleFinish = () => {
       const { loginName, loginPw } = state.loginForm
-      if (loginName === 'zhangsan' && loginPw === 'zhangsan') {
+      if (loginPw === '123') {
+        window.localStorage.setItem('userName', loginName || '')
         state.loading = true
         setTimeout(() => {
           state.loading = false
           message.success('登录成功！', 1, () => {
             router.push('/myself')
           })
-        }, 1000)
+        }, 500)
       } else {
         message.error('用户名或密码错误！')
       }

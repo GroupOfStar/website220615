@@ -1,4 +1,4 @@
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, onMounted, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   Avatar,
@@ -21,6 +21,7 @@ import { LogoutOutlined, UserOutlined } from '@ant-design/icons-vue'
 import ChartLine from './ChartLine'
 import Vacation from './Vacation'
 import Footer from '@/components/Footer'
+import List from '@/components/List'
 import { LogoLight } from '@/assets'
 import {
   Buqian,
@@ -36,9 +37,10 @@ import {
   Wenjianchakan,
   Myself,
 } from '@/assets/icons/index'
+import watermark from '@/utils/watermark'
+import moment from 'moment'
 import { growthProcess, todoList, workExperiences } from './data'
 import styles from './index.module.less'
-import List from '@/components/List'
 
 // 功能数据
 const ActionIcons: IStatusEnum[] = [
@@ -79,14 +81,30 @@ export default defineComponent({
     const state = reactive({
       loading: false,
       toDoState: '1',
-      userName: '张三',
-      loginForm: {
-        loginId: '',
-        password: '',
-      },
+      userName: window.localStorage.getItem('userName') || '张三',
       currentMenu: ['1'],
       todoCurrentTab: '1',
       modalVisible: false,
+    })
+
+    onMounted(() => {
+      setTimeout(() => {
+        const root = document.getElementById('root')
+        if (root) {
+          watermark(root, {
+            text1: `${state.userName} ${moment().format(
+              'YYYY-MM-DD'
+            )} 10.18.24.274`,
+            text2: '',
+            color: 'black',
+            fontSize: 24,
+            space_x: 150,
+            space_y: 120,
+            width: 450,
+            alpha: 0.1, // 透明度
+          })
+        }
+      }, 500)
     })
 
     // 待办事项的tab切换
@@ -135,11 +153,11 @@ export default defineComponent({
                 <div class={styles.myself_title}>我自己</div>
               </div>
 
-              <Dropdown placement="bottomRight" trigger={['click','hover']}>
+              <Dropdown placement="bottomRight" trigger={['click', 'hover']}>
                 {{
                   default: () => (
                     <div class={styles.account_avatar}>
-                      <span>张三</span>
+                      <span>{state.userName}</span>
                       <Avatar
                         shape="square"
                         src="https://joeschmoe.io/api/v1/random"
