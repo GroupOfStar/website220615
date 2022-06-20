@@ -328,6 +328,36 @@ export default defineComponent({
                   }
                 >
                   <Row gutter={24}>
+                    <Col span={12}>
+                      <div class={styles.photo_news_item}>
+                        <img
+                          class={styles.photo_news_img}
+                          src={Zonghanghuiyi01}
+                        />
+                        <div>
+                          <p class={styles.photo_news_title}>2022.06.09</p>
+                          <p class={styles.photo_news_text}>
+                            中信银行召开2022年保密委员会会议
+                          </p>
+                        </div>
+                      </div>
+                    </Col>
+                    <Col span={12}>
+                      <div class={styles.photo_news_item}>
+                        <img
+                          class={styles.photo_news_img}
+                          src={Zonghanghuiyi02}
+                        />
+                        <div>
+                          <p class={styles.photo_news_title}>2022.06.09</p>
+                          <p class={styles.photo_news_text}>
+                            总行举办中信大讲堂“342”强核行动行领...
+                          </p>
+                        </div>
+                      </div>
+                    </Col>
+                  </Row>
+                  {/* <Row gutter={24}>
                     {Array.from({ length: 4 }, (_i, index) => (
                       <Col span={6} key={index}>
                         <Card
@@ -351,7 +381,7 @@ export default defineComponent({
                         </Card>
                       </Col>
                     ))}
-                  </Row>
+                  </Row> */}
                 </Card>
               </Col>
             </Row>
