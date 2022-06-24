@@ -307,6 +307,7 @@ export default defineComponent({
                         />
                         <div>副总经理</div>
                         <div>零售银行部</div>
+                        <div>苍山路支行负责人</div>
                       </div>
                     </div>
 
