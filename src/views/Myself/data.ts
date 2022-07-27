@@ -9,7 +9,7 @@ export const todoList: IListItem[] = [
 
 // 成长历程
 export const growthProcess: IListItem[] = [
-  { id: 1, title: '中信银行大理分行 零售银行部 副总经理 兼苍山路支行负责人 二级分行部门副总经理', time: '2021-04-13' },
+  { id: 1, title: '中信银行大理分行 零售银行部 副总经理 兼苍山路支行负责人 二级分行副行长级', time: '2021-04-13' },
   { id: 2, title: '中信银行大理分行 苍山路支行行长室 支行行长 二级分行副行长级', time: '2019-08-12' },
   { id: 3, title: '中信银行大理分行 苍山路支行行长室 负责人（代为履行支行负责人职责） 二级分行副行长级', time: '2019-05-20' },
   { id: 4, title: '中信银行大理分行 零售银行部 零售银行部副总经理 二级分行部门副经理级', time: '2017-04-18' },
@@ -28,5 +28,5 @@ export const workExperiences: WorkExperienceItem[] = [
   { id: 7, startDate: '2017年04月18日', endDate: '2019年05月20日', workUnit: '中信银行大理分行', department: '零售银行部', post: '零售银行部副总经理', rank: '二级分行部门副经理级' },
   { id: 8, startDate: '2019年05月20日', endDate: '2019年08月12日', workUnit: '中信银行大理分行', department: '苍山路支行行长室', post: '负责人（代为履行支行负责人职责）', rank: '二级分行副行长级' },
   { id: 9, startDate: '2019年08月12日', endDate: '2021年04月13日', workUnit: '中信银行大理分行', department: '苍山路支行行长室', post: '支行行长', rank: '二级分行副行长级' },
-  { id: 9, startDate: '2021年04月13日', endDate: '2119年11月06日', workUnit: '中信银行大理分行', department: '零售银行部', post: '副总经理', rank: '二级分行部门副总经理级' },
+  { id: 9, startDate: '2021年04月13日', endDate: '2119年11月06日', workUnit: '中信银行大理分行', department: '零售银行部', post: '副总经理', rank: '二级分行副行长级' },
 ]
