@@ -75,10 +75,10 @@ const todoTabList = [
 const tableColumns: ColumnProps = [
   { title: '开始时间', dataIndex: 'startDate', width: 130, ellipsis: true },
   { title: '结束时间', dataIndex: 'endDate', width: 130, ellipsis: true },
-  { title: '工作单位', dataIndex: 'workUnit', ellipsis: true },
-  { title: '任职部门', dataIndex: 'department', ellipsis: true },
+  { title: '工作单位', dataIndex: 'workUnit', width: 130, ellipsis: true },
+  { title: '任职部门', dataIndex: 'department', width: 150, ellipsis: true },
   { title: '岗位', dataIndex: 'post', ellipsis: true },
-  { title: '职级', dataIndex: 'rank', ellipsis: true },
+  { title: '职级', dataIndex: 'rank', width: 175, ellipsis: true },
 ]
 
 export default defineComponent({
@@ -391,7 +391,8 @@ export default defineComponent({
             <Avatar size={64} icon={<UserOutlined />} src={IdPhoto} />
             <div class={styles.user_info}>
               <h2>{state.userName} 26403003444</h2>
-              <div>副总经理 零售银行部 大理分行</div>
+              {/* <div>副总经理 零售银行部 大理分行</div> */}
+              <div>大理分行零售银行部副总经理、苍山路支行负责人</div>
             </div>
           </div>
           <Card title="当前任职信息" size="small">
