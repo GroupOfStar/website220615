@@ -305,7 +305,7 @@ export default defineComponent({
                           v-model={[state.userName, 'content']}
                           editable
                         />
-                        <div>副总经理</div>
+                        <div>总经理</div>
                         <div>零售银行部</div>
                         <div>苍山路支行负责人</div>
                       </div>
@@ -392,7 +392,7 @@ export default defineComponent({
             <div class={styles.user_info}>
               <h2>{state.userName} 26403003444</h2>
               {/* <div>副总经理 零售银行部 大理分行</div> */}
-              <div>大理分行零售银行部副总经理、苍山路支行负责人</div>
+              <div>大理分行零售银行部总经理、苍山路支行负责人</div>
             </div>
           </div>
           <Card title="当前任职信息" size="small">
@@ -402,7 +402,7 @@ export default defineComponent({
               <Descriptions.Item label="在职状态">在岗</Descriptions.Item>
               <Descriptions.Item label="所属岗位">副总经理</Descriptions.Item>
               <Descriptions.Item label="职级">
-                二级分部门副总经理级
+                二级分部门副行长级
               </Descriptions.Item>
             </Descriptions>
           </Card>
