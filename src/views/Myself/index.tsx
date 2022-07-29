@@ -307,7 +307,6 @@ export default defineComponent({
                         />
                         <div>总经理</div>
                         <div>零售银行部</div>
-                        <div>苍山路支行负责人</div>
                       </div>
                     </div>
 
@@ -391,8 +390,7 @@ export default defineComponent({
             <Avatar size={64} icon={<UserOutlined />} src={IdPhoto} />
             <div class={styles.user_info}>
               <h2>{state.userName} 26403003444</h2>
-              {/* <div>副总经理 零售银行部 大理分行</div> */}
-              <div>大理分行零售银行部总经理、苍山路支行负责人</div>
+              <div>大理分行零售银行部总经理</div>
             </div>
           </div>
           <Card title="当前任职信息" size="small">
