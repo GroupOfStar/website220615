@@ -7,6 +7,11 @@ export const todoList: IListItem[] = [
   { id: 2, title: '昆明分行2020年考核部门员工 年度-按指标评估', time: '2021年1月13日' },
 ]
 
+// 待办事项列表2
+export const todoList2: IListItem[] = [
+  { id: 1, title: '昆明分行2020年各单位班子履职评估考核 年度-按指标评估', time: '2021年4月2日' },
+]
+
 // 成长历程
 export const growthProcess: IListItem[] = [
   { id: 1, title: '中信银行大理分行 零售银行部 总经理 兼苍山路支行负责人 二级分行副行长级', time: '2021-04-13' },
@@ -15,6 +20,13 @@ export const growthProcess: IListItem[] = [
   { id: 4, title: '中信银行大理分行 零售银行部 零售银行部副总经理 二级分行部门副经理级', time: '2017-04-18' },
   { id: 5, title: '中信银行大理分行 零售银行部 拟任：副总经理 二级分行部门副经理级', time: '2015-11-10' },
   { id: 6, title: '农业银行大理洱河北路支行 大理洱河北路支行 大理洱河北路支行 行长', time: '2012-06-07' },
+]
+
+// 成长历程
+export const growthProcess2: IListItem[] = [
+  { id: 1, title: '中信银行大理分行 零售银行部 个贷客户经理岗 中级', time: '2020-11-18' },
+  { id: 2, title: '中信银行大理分行 办公室 安全保卫岗 中级', time: '2019-01-01' },
+  { id: 3, title: '中信银行大理分行 办公室 综合管理岗 初级', time: '2012-04-18' },
 ]
 
 /** 工作经历data */
@@ -29,4 +41,11 @@ export const workExperiences: WorkExperienceItem[] = [
   { id: 8, startDate: '2019年05月20日', endDate: '2019年08月12日', workUnit: '中信银行大理分行', department: '苍山路支行行长室', post: '负责人（代为履行支行负责人职责）', rank: '二级分行副行长级' },
   { id: 9, startDate: '2019年08月12日', endDate: '2021年04月13日', workUnit: '中信银行大理分行', department: '苍山路支行行长室', post: '支行行长', rank: '二级分行副行长级' },
   { id: 9, startDate: '2021年04月13日', endDate: '2119年11月06日', workUnit: '中信银行大理分行', department: '零售银行部', post: '总经理', rank: '二级分行副行长级' },
+]
+
+/** 工作经历data */
+export const workExperiences2: WorkExperienceItem[] = [
+  { id: "01", startDate: '2012年04月18日', endDate: '2019年01月01日', workUnit: '中信银行大理分行', department: '办公室', post: '综合管理岗', rank: '初级' },
+  { id: "02", startDate: '2019年01月01日', endDate: '2020年11月18日', workUnit: '中信银行大理分行', department: '办公室', post: '安全保卫岗', rank: '中级' },
+  { id: "03", startDate: '2020年11月18日', endDate: '2199年11月06日', workUnit: '中信银行大理分行', department: '零售银行部', post: '个贷客户经理岗', rank: '中级' },
 ]

@@ -18,16 +18,23 @@ export default defineComponent({
       },
     })
 
+    const handleLogin = () => {
+      state.loading = true
+      message.success('登录成功！', 1, () => {
+        state.loading = false
+        router.push('/myself')
+      })
+    }
+
     // 登录
     const handleFinish = () => {
       const { loginName, loginPw } = state.loginForm
-      if (loginPw === '123') {
-        window.localStorage.setItem('userName', loginName || '')
-        state.loading = true
-        message.success('登录成功！', 1, () => {
-          state.loading = false
-          router.push('/myself')
-        })
+      if (loginName === '岳磊' && loginPw === '123') {
+        window.localStorage.setItem('userName', '岳磊')
+        handleLogin()
+      } else if (loginName === 'liuteng' && loginPw === '123123666') {
+        window.localStorage.setItem('userName', '刘腾')
+        handleLogin()
       } else {
         message.error('用户名或密码错误！')
       }

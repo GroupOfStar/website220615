@@ -16,10 +16,35 @@ const data = [
   { type: '11月', value: 0 },
   { type: '12月', value: 0 },
 ]
+const data2 = [
+  { type: '1月', value: 0 },
+  { type: '2月', value: 0 },
+  { type: '3月', value: 1 },
+  { type: '4月', value: 0 },
+  { type: '5月', value: 2 },
+  { type: '6月', value: 0 },
+  { type: '7月', value: 0 },
+  { type: '8月', value: 0 },
+  { type: '9月', value: 0 },
+  { type: '10月', value: 0 },
+  { type: '11月', value: 0 },
+  { type: '12月', value: 0 },
+]
+
+/** ChartLine组件propsType */
+const ChartLinePropsDefine = {
+  /** 是否是主账户 */
+  isAdmin: {
+    type: Boolean,
+    default: true,
+  },
+} as const
 
 export default defineComponent({
   name: 'ChartLine',
-  setup() {
+  props: ChartLinePropsDefine,
+  setup(props) {
+    console.log('props', props)
     onMounted(() => {
       const chart = new Chart({
         container: 'container',
@@ -27,7 +52,7 @@ export default defineComponent({
         height: 230,
         padding: [30, 20, 30, 30],
       })
-      chart.data(data)
+      chart.data(props.isAdmin ? data : data2)
       chart.scale('value', {
         alias: '天数',
       })

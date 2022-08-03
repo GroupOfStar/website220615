@@ -1,10 +1,10 @@
 import {
+  computed,
   defineComponent,
   onBeforeUnmount,
   onMounted,
   reactive,
   ref,
-  Ref,
 } from 'vue'
 import { useRouter } from 'vue-router'
 import {
@@ -29,7 +29,7 @@ import ChartLine from './ChartLine'
 import Vacation from './Vacation'
 import Footer from '@/components/Footer'
 import List from '@/components/List'
-import { LogoLight, IdPhoto } from '@/assets'
+import { LogoLight, IdPhoto, IdPhoto2 } from '@/assets'
 import {
   Buqian,
   Kaoqin,
@@ -47,7 +47,14 @@ import {
 // import watermark from '@/utils/watermark'
 import { Watermark } from '@pansy/watermark'
 import moment from 'moment'
-import { growthProcess, todoList, workExperiences } from './data'
+import {
+  growthProcess,
+  growthProcess2,
+  todoList,
+  todoList2,
+  workExperiences,
+  workExperiences2,
+} from './data'
 import styles from './index.module.less'
 
 // 功能数据
@@ -89,68 +96,32 @@ export default defineComponent({
     const state = reactive({
       loading: false,
       toDoState: '1',
-      userName: window.localStorage.getItem('userName') || '张三',
+      userName: '',
       currentMenu: ['1'],
       todoCurrentTab: '1',
       modalVisible: false,
     })
     const watermark = ref<Watermark>()
 
-    // monitor?: boolean;
-    // /** 图片源，建议导出 2 倍或 3 倍图，优先使用图片渲染水印 */
-    // image?: string;
-    // /** 水印文本, 为数组时表示多行水印 */
-    // text?: string | string[];
-    // /** 盲水印文本 */
-    // blindText?: string;
-    // /** 盲水印文本大小 */
-    // blindFontSize?: string | number;
-    // /** 盲水印透明度 */
-    // blindOpacity?: number;
-    // /** 样式层级 */
-    // zIndex?: number;
-    // /** 是否使用水印组件包裹内容  */
-    // pack?: boolean;
-    // /** 水印挂载的容器 */
-    // container?: HTMLElement | string | null;
-    // /** 水印挂载的样式 */
-    // containerStyle?: Record<string, any>;
-    // /** 展示模式，interval表示错行展示 */
-    // mode?: 'repeat' | 'interval';
-    //  */
+    const isAdmin = computed(() => state.userName === '岳磊')
 
     onMounted(() => {
+      state.userName = window.localStorage.getItem('userName') || ''
       watermark.value = new Watermark({
         container: 'root',
-        text: [state.userName, moment().format('YYYY-MM-DD'), '10.18.24.274'],
+        text: [
+          state.userName,
+          moment().format('YYYY-MM-DD'),
+          isAdmin.value ? '10.18.24.274' : '22.98.40.102',
+        ],
         fontSize: 16,
         gapX: 8,
         gapY: 246,
-        // width: 500,
-        // height: 30,
         fontColor: 'black',
         opacity: 0.1,
         zIndex: 999,
       })
       watermark.value.show()
-
-      // setTimeout(() => {
-      //   const root = document.getElementById('root')
-      //   if (root) {
-      //     watermark(root, {
-      //       text1: `${state.userName} ${moment().format(
-      //         'YYYY-MM-DD'
-      //       )} 10.18.24.274`,
-      //       text2: '',
-      //       color: 'black',
-      //       fontSize: 24,
-      //       space_x: 150,
-      //       space_y: 120,
-      //       width: 450,
-      //       alpha: 0.1, // 透明度
-      //     })
-      //   }
-      // }, 500)
     })
 
     onBeforeUnmount(() => {
@@ -210,7 +181,10 @@ export default defineComponent({
                   default: () => (
                     <div class={styles.account_avatar}>
                       <span>{state.userName}</span>
-                      <Avatar shape="square" src={IdPhoto} />
+                      <Avatar
+                        shape="square"
+                        src={isAdmin.value ? IdPhoto : IdPhoto2}
+                      />
                     </div>
                   ),
                   overlay: () => (
@@ -268,7 +242,10 @@ export default defineComponent({
                       }
                       class={styles.todo_warper}
                     >
-                      <List showArrow dataSource={todoList} />
+                      <List
+                        showArrow
+                        dataSource={isAdmin.value ? todoList : todoList2}
+                      />
                     </Card>
                   </Card>
                 </div>
@@ -299,44 +276,67 @@ export default defineComponent({
                 <div class={styles.growth_warper}>
                   <Card title="成长历程" size="small">
                     <div class={styles.avatar_warper}>
-                      <Avatar size={108} src={IdPhoto} />
+                      <Avatar
+                        size={108}
+                        src={isAdmin.value ? IdPhoto : IdPhoto2}
+                      />
                       <div class={styles._avatar_info}>
                         <Typography.Paragraph
                           v-model={[state.userName, 'content']}
                           editable
                         />
-                        <div>总经理</div>
-                        <div>零售银行部</div>
+                        {isAdmin.value ? (
+                          <>
+                            <div>总经理</div>
+                            <div>零售银行部</div>
+                          </>
+                        ) : (
+                          <>
+                            <div>个贷客户经理岗位</div>
+                            <div>零售银行部</div>
+                          </>
+                        )}
                       </div>
                     </div>
 
                     <Timeline>
-                      {growthProcess.map(item => (
-                        <Timeline.Item
-                          key={item.id}
-                          color="green"
-                          class={styles.timeLine_item}
-                        >
-                          <div class={styles.time}>{item.time}</div>
-                          <div class={styles.content}>{item.title}</div>
-                        </Timeline.Item>
-                      ))}
+                      {(isAdmin.value ? growthProcess : growthProcess2).map(
+                        item => (
+                          <Timeline.Item
+                            key={item.id}
+                            color="green"
+                            class={styles.timeLine_item}
+                          >
+                            <div class={styles.time}>{item.time}</div>
+                            <div class={styles.content}>{item.title}</div>
+                          </Timeline.Item>
+                        )
+                      )}
                     </Timeline>
                   </Card>
                 </div>
               </Col>
               <Col span={16}>
                 <Card title="我的公出" size="small">
-                  <ChartLine />
+                  <ChartLine isAdmin={isAdmin.value} />
                   <Row style={{ marginTop: '12px' }}>
                     <Col span={8}>
-                      <Vacation title="2020" value="0" />
+                      <Vacation
+                        title="2020"
+                        value={isAdmin.value ? '0' : '6天+0小时'}
+                      />
                     </Col>
                     <Col span={8}>
-                      <Vacation title="2021" value="4.5天+41小时" />
+                      <Vacation
+                        title="2021"
+                        value={isAdmin.value ? '4.5天+41小时' : '4天+3.5小时'}
+                      />
                     </Col>
                     <Col span={8}>
-                      <Vacation title="2022" value="3天+9小时" />
+                      <Vacation
+                        title="2022"
+                        value={isAdmin.value ? '3天+9小时' : '0'}
+                      />
                     </Col>
                   </Row>
                 </Card>
@@ -347,7 +347,10 @@ export default defineComponent({
                       <Typography.Text type="secondary">
                         年假剩余
                       </Typography.Text>
-                      <Progress percent={100} format={() => <>10/10</>} />
+                      <Progress
+                        percent={isAdmin.value ? 100 : 45}
+                        format={() => <>{isAdmin.value ? '10/10' : '9/20'}</>}
+                      />
                     </Col>
                     <Col span={24}>
                       <Typography.Text type="secondary">
@@ -361,13 +364,22 @@ export default defineComponent({
                       </Typography.Text>
                       <Row style={{ marginTop: '12px' }}>
                         <Col span={8}>
-                          <Vacation title="2022" value="3天+0小时" />
+                          <Vacation
+                            title="2022"
+                            value={isAdmin.value ? '3天+0小时' : '5天+0小时'}
+                          />
                         </Col>
                         <Col span={8}>
-                          <Vacation title="2021" value="0" />
+                          <Vacation
+                            title="2021"
+                            value={isAdmin.value ? '0' : '5天+33小时'}
+                          />
                         </Col>
                         <Col span={8}>
-                          <Vacation title="2020" value="0" />
+                          <Vacation
+                            title="2020"
+                            value={isAdmin.value ? '0' : '2天+14小时'}
+                          />
                         </Col>
                       </Row>
                     </Col>
@@ -387,10 +399,20 @@ export default defineComponent({
           footer={<Button onClick={onModalCancel}>关闭</Button>}
         >
           <div class={styles.user_head_warper}>
-            <Avatar size={64} icon={<UserOutlined />} src={IdPhoto} />
+            <Avatar
+              size={64}
+              icon={<UserOutlined />}
+              src={isAdmin.value ? IdPhoto : IdPhoto2}
+            />
             <div class={styles.user_info}>
-              <h2>{state.userName} 26403003444</h2>
-              <div>大理分行零售银行部总经理</div>
+              <h2>
+                {state.userName} {isAdmin.value ? '26450062' : '26450092'}
+              </h2>
+              <div>
+                {isAdmin.value
+                  ? '大理分行零售银行部总经理'
+                  : '个贷客户经理岗 零售银行部 大理分行'}
+              </div>
             </div>
           </div>
           <Card title="当前任职信息" size="small">
@@ -398,9 +420,11 @@ export default defineComponent({
               <Descriptions.Item label="所属机构">大理分行</Descriptions.Item>
               <Descriptions.Item label="所属部门">零售银行部</Descriptions.Item>
               <Descriptions.Item label="在职状态">在岗</Descriptions.Item>
-              <Descriptions.Item label="所属岗位">副总经理</Descriptions.Item>
+              <Descriptions.Item label="所属岗位">
+                {isAdmin.value ? '副总经理' : '个贷客户经理岗'}
+              </Descriptions.Item>
               <Descriptions.Item label="职级">
-                二级分部门副行长级
+                {isAdmin.value ? '二级分部门副行长级' : '中级'}
               </Descriptions.Item>
             </Descriptions>
           </Card>
@@ -411,7 +435,7 @@ export default defineComponent({
               size="small"
               bordered
               columns={tableColumns}
-              dataSource={workExperiences}
+              dataSource={isAdmin.value ? workExperiences : workExperiences2}
               pagination={false}
             />
           </Card>
@@ -419,16 +443,16 @@ export default defineComponent({
           <Card title="合同信息" size="small">
             <Descriptions bordered size="small" column={2}>
               <Descriptions.Item label="合同编码">
-                EMPCON00093882
+                {isAdmin.value ? 'EMPCON00093882' : 'EMPCON00019444'}
               </Descriptions.Item>
               <Descriptions.Item label="合同类型">劳动合同</Descriptions.Item>
               <Descriptions.Item label="期限类型">固定期限</Descriptions.Item>
               <Descriptions.Item label="合同状态">履行中</Descriptions.Item>
               <Descriptions.Item label="生效日期">
-                2018年11月10日
+                2016年10月29日
               </Descriptions.Item>
               <Descriptions.Item label="终止日期">
-                2023年11月09日
+                2021年10月28日
               </Descriptions.Item>
             </Descriptions>
           </Card>

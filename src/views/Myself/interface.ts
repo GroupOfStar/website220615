@@ -1,7 +1,7 @@
 /** 工作经历Item */
 export interface WorkExperienceItem {
   /** id */
-  id?: number
+  id?: number | string
   /** 开始时间 */
   startDate?: string
   /** 结束时间 */
