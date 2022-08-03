@@ -91,8 +91,9 @@ export default defineComponent({
 
     // 登录
     const handleFinish = () => {
-      const { userName, password } = state.loginForm
-      if (userName === '岳磊' && password === '123') {
+      const userName = (state.loginForm.userName || '').trim()
+      const password = (state.loginForm.password || '').trim()
+      if (userName === 'yuelei' && password === '888888') {
         window.localStorage.setItem('userName', '岳磊')
         handleLogin()
       } else if (userName === 'liuteng' && password === '123123666') {

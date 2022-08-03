@@ -424,7 +424,7 @@ export default defineComponent({
                 {isAdmin.value ? '副总经理' : '个贷客户经理岗'}
               </Descriptions.Item>
               <Descriptions.Item label="职级">
-                {isAdmin.value ? '二级分部门副行长级' : '中级'}
+                {isAdmin.value ? '二级分行副行长级' : '中级'}
               </Descriptions.Item>
             </Descriptions>
           </Card>

@@ -28,8 +28,9 @@ export default defineComponent({
 
     // 登录
     const handleFinish = () => {
-      const { loginName, loginPw } = state.loginForm
-      if (loginName === '岳磊' && loginPw === '123') {
+      const loginName = (state.loginForm.loginName || '').trim()
+      const loginPw = (state.loginForm.loginPw || '').trim()
+      if (loginName === 'yuelei' && loginPw === '888888') {
         window.localStorage.setItem('userName', '岳磊')
         handleLogin()
       } else if (loginName === 'liuteng' && loginPw === '123123666') {
