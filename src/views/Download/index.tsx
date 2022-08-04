@@ -1,4 +1,4 @@
-import { Docx, Xlsx } from '@/assets/icons'
+import { Docx, Xlsx, Pptx } from '@/assets/icons'
 import { Input, message, Modal, Space, Table } from 'ant-design-vue'
 import { ColumnType } from 'ant-design-vue/lib/table/interface'
 import { defineComponent, reactive } from 'vue'
@@ -14,74 +14,128 @@ const tableColumns: ColumnProps = [
 const fileList = [
   {
     id: 1,
-    name: '考核日报20220608',
-    type: 'xlsx',
-    size: '318.4KB',
-    createDate: '2022-6-16 22:54',
+    name: '中信银行岳磊任职通知',
+    type: 'pdf',
+    size: '545.6K',
+    createDate: '2021年4月13日',
   },
   {
     id: 2,
-    name: '考核日报20220607',
-    type: 'xlsx',
-    size: '318.4KB',
-    createDate: '2016-6-16 22:54',
+    name: '云南众焱通源天然气开发有限公司授信文件',
+    type: 'pdf',
+    size: '845.4K',
+    createDate: '2022年5月11日',
   },
   {
     id: 3,
-    name: '共业务喜报通报202206',
-    type: 'docx',
-    size: '1MB',
-    createDate: '2022-6-16 22:54',
+    name: '大理中翌房地产开发有限公司授信文件',
+    type: 'pdf',
+    size: '858.3K',
+    createDate: '2022年5月11日',
   },
   {
     id: 4,
-    name: '党委会碰头会督办事项（5月16日会议）',
-    type: 'docx',
-    size: '2.24MB',
-    createDate: '2021-9-12 18:54',
+    name: '大理分行关于周末及节假日暂停柜面业务的公告',
+    type: 'pdf',
+    size: '576.5K',
+    createDate: '2022年2月24日',
   },
   {
     id: 5,
-    name: '关于分行业加强企业疫情防控保障生产经营的通知书',
-    type: 'docx',
-    size: '1.72MB',
-    createDate: '2022-6-15 22:54',
+    name: '大理分行关于规范公文的通知',
+    type: 'pdf',
+    size: '16.1K',
+    createDate: '2022年4月13日',
+  },
+  {
+    id: 6,
+    name: '大理分行2022年第二批案防和员工行为飞行检查情况的通报',
+    type: 'pdf',
+    size: '14.5K',
+    createDate: '2022年4月12日',
+  },
+  {
+    id: 7,
+    name: '大理分行关于进一步规范宣传费用使用的通知',
+    type: 'pdf',
+    size: '13.5K',
+    createDate: '2022年1月19日',
+  },
+  {
+    id: 8,
+    name: '总行审计公示',
+    type: 'pdf',
+    size: '13.4K',
+    createDate: '2021年9月8日',
+  },
+  {
+    id: 9,
+    name: '大理分行关于切实加强疫情防控的通知',
+    type: 'pdf',
+    size: '14.7K',
+    createDate: '2021年7月30日',
+  },
+  {
+    id: 10,
+    name: '中信年度转授权、单项授权文件',
+    type: 'pdf',
+    size: '938K',
+    createDate: '2022年7月22日',
+  },
+  {
+    id: 11,
+    name: '关于进一步规范大理分行员工考勤管理的通知',
+    type: 'pdf',
+    size: '1M',
+    createDate: '2022年2月15日',
+  },
+  {
+    id: 12,
+    name: '关于做好人行“稳定预期、强信心”政策专题宣传及信息报送的通知',
+    type: 'pdf',
+    size: '994K',
+    createDate: '2022年4月28日',
   },
 ]
 
+interface IState {
+  modalVisible: boolean
+  pdValue?: string
+  currentRecord: {
+    id?: number
+    name?: string
+    type?: 'pdf' | 'docx' | 'xlsx'
+    size?: string
+    createDate?: string
+  }
+}
+
 /** 文件下载 */
 export default defineComponent(function Download() {
-  const state = reactive({
+  const state = reactive<IState>({
     modalVisible: false,
     pdValue: undefined,
-    currentRecord: {
-      type: undefined,
-    },
+    currentRecord: {},
   })
 
   /** 文件下载 */
   const onDownloadClick = (record: any) => {
-    console.log('record :>> ', record)
     state.currentRecord = record
     state.modalVisible = true
   }
 
   /** 弹窗取消 */
   const onModalCancel = () => {
+    state.pdValue = undefined
     state.modalVisible = false
   }
 
   /** 弹窗确认 */
   const onModalOK = () => {
-    if (state.pdValue === '123') {
+    if (state.pdValue === 'YL767676') {
       const adom = document.createElement('a')
-      if (state.currentRecord.type === 'docx') {
-        adom.href = '/党委会碰头会督办事项0516.doc'
-        adom.download = '党委会碰头会督办事项0516'
-      } else {
-        adom.href = '/考核日报20220608.xls'
-        adom.download = '考核日报20220608'
-      }
+      adom.href = `/${state.currentRecord.name}.${state.currentRecord.type}`
+      adom.download = state.currentRecord.name || ''
       adom.target = '_blank'
       adom.click()
       adom.remove()
@@ -115,7 +169,7 @@ export default defineComponent(function Download() {
                 return (
                   <Space>
                     <img
-                      src={record.type === 'docx' ? Docx : Xlsx}
+                      src={record.type === 'docx' ? Docx : Pptx}
                       style={{ width: '22px', height: '22px' }}
                     />
                     {text}

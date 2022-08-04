@@ -421,7 +421,7 @@ export default defineComponent({
               <Descriptions.Item label="所属部门">零售银行部</Descriptions.Item>
               <Descriptions.Item label="在职状态">在岗</Descriptions.Item>
               <Descriptions.Item label="所属岗位">
-                {isAdmin.value ? '副总经理' : '个贷客户经理岗'}
+                {isAdmin.value ? '总经理' : '个贷客户经理岗'}
               </Descriptions.Item>
               <Descriptions.Item label="职级">
                 {isAdmin.value ? '二级分行副行长级' : '中级'}
@@ -452,7 +452,7 @@ export default defineComponent({
                 2016年10月29日
               </Descriptions.Item>
               <Descriptions.Item label="终止日期">
-                2021年10月28日
+                2025年10月20
               </Descriptions.Item>
             </Descriptions>
           </Card>
