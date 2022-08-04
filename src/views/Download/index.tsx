@@ -1,5 +1,5 @@
 import { Docx, Xlsx, Pptx } from '@/assets/icons'
-import { Input, message, Modal, Space, Table } from 'ant-design-vue'
+import { Divider, Input, message, Modal, Space, Table } from 'ant-design-vue'
 import { ColumnType } from 'ant-design-vue/lib/table/interface'
 import { defineComponent, reactive } from 'vue'
 
@@ -20,6 +20,62 @@ const fileList = [
     createDate: '2021年4月13日',
   },
   {
+    id: 9,
+    name: '大理分行关于切实加强疫情防控的通知',
+    type: 'pdf',
+    size: '14.7K',
+    createDate: '2021年7月30日',
+  },
+  {
+    id: 8,
+    name: '总行审计公示',
+    type: 'pdf',
+    size: '13.4K',
+    createDate: '2021年9月8日',
+  },
+  {
+    id: 7,
+    name: '大理分行关于进一步规范宣传费用使用的通知',
+    type: 'pdf',
+    size: '13.5K',
+    createDate: '2022年1月19日',
+  },
+  {
+    id: 11,
+    name: '关于进一步规范大理分行员工考勤管理的通知',
+    type: 'pdf',
+    size: '1M',
+    createDate: '2022年2月15日',
+  },
+  {
+    id: 4,
+    name: '大理分行关于周末及节假日暂停柜面业务的公告',
+    type: 'pdf',
+    size: '576.5K',
+    createDate: '2022年2月24日',
+  },
+  {
+    id: 6,
+    name: '大理分行2022年第二批案防和员工行为飞行检查情况的通报',
+    type: 'pdf',
+    size: '14.5K',
+    createDate: '2022年4月12日',
+  },
+  {
+    id: 5,
+    name: '大理分行关于规范公文的通知',
+    type: 'pdf',
+    size: '16.1K',
+    createDate: '2022年4月13日',
+  },
+  {
+    id: 12,
+    name: '关于做好人行“稳定预期、强信心”政策专题宣传及信息报送的通知',
+    type: 'pdf',
+    size: '994K',
+    createDate: '2022年4月28日',
+  },
+  {
     id: 2,
     name: '云南众焱通源天然气开发有限公司授信文件',
     type: 'pdf',
@@ -34,72 +90,19 @@ const fileList = [
     createDate: '2022年5月11日',
   },
   {
-    id: 4,
-    name: '大理分行关于周末及节假日暂停柜面业务的公告',
-    type: 'pdf',
-    size: '576.5K',
-    createDate: '2022年2月24日',
-  },
-  {
-    id: 5,
-    name: '大理分行关于规范公文的通知',
-    type: 'pdf',
-    size: '16.1K',
-    createDate: '2022年4月13日',
-  },
-  {
-    id: 6,
-    name: '大理分行2022年第二批案防和员工行为飞行检查情况的通报',
-    type: 'pdf',
-    size: '14.5K',
-    createDate: '2022年4月12日',
-  },
-  {
-    id: 7,
-    name: '大理分行关于进一步规范宣传费用使用的通知',
-    type: 'pdf',
-    size: '13.5K',
-    createDate: '2022年1月19日',
-  },
-  {
-    id: 8,
-    name: '总行审计公示',
-    type: 'pdf',
-    size: '13.4K',
-    createDate: '2021年9月8日',
-  },
-  {
-    id: 9,
-    name: '大理分行关于切实加强疫情防控的通知',
-    type: 'pdf',
-    size: '14.7K',
-    createDate: '2021年7月30日',
-  },
-  {
     id: 10,
     name: '中信年度转授权、单项授权文件',
     type: 'pdf',
     size: '938K',
     createDate: '2022年7月22日',
   },
-  {
-    id: 11,
-    name: '关于进一步规范大理分行员工考勤管理的通知',
-    type: 'pdf',
-    size: '1M',
-    createDate: '2022年2月15日',
-  },
-  {
-    id: 12,
-    name: '关于做好人行“稳定预期、强信心”政策专题宣传及信息报送的通知',
-    type: 'pdf',
-    size: '994K',
-    createDate: '2022年4月28日',
-  },
 ]
+
+type IModalType = 'show' | 'download'
 
 interface IState {
   modalVisible: boolean
+  modalType: IModalType
   pdValue?: string
   currentRecord: {
     id?: number
@@ -114,12 +117,14 @@ interface IState {
 export default defineComponent(function Download() {
   const state = reactive<IState>({
     modalVisible: false,
+    modalType: 'show',
     pdValue: undefined,
     currentRecord: {},
   })
 
-  /** 文件下载 */
-  const onDownloadClick = (record: any) => {
+  /** 打开弹窗 */
+  const onShowModal = (record: any, type: IModalType) => {
+    state.modalType = type
     state.currentRecord = record
     state.modalVisible = true
   }
@@ -135,7 +140,9 @@ export default defineComponent(function Download() {
     if (state.pdValue === 'YL767676') {
       const adom = document.createElement('a')
       adom.href = `/${state.currentRecord.name}.${state.currentRecord.type}`
-      adom.download = state.currentRecord.name || ''
+      if (state.modalType === 'download') {
+        adom.download = state.currentRecord.name || ''
+      }
       adom.target = '_blank'
       adom.click()
       adom.remove()
@@ -176,7 +183,13 @@ export default defineComponent(function Download() {
                   </Space>
                 )
               case 'operation':
-                return <a onClick={() => onDownloadClick(record)}>下载</a>
+                return (
+                  <>
+                    <a onClick={() => onShowModal(record, 'show')}>预览</a>
+                    <Divider type="vertical" />
+                    <a onClick={() => onShowModal(record, 'download')}>下载</a>
+                  </>
+                )
               default:
                 return text
             }
