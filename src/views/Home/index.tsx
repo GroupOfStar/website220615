@@ -93,10 +93,10 @@ export default defineComponent({
     const handleFinish = () => {
       const userName = (state.loginForm.userName || '').trim()
       const password = (state.loginForm.password || '').trim()
-      if (userName === 'yuelei' && password === '888888') {
+      if (userName === 'yuelei' && password === 'yuelei888') {
         window.localStorage.setItem('userName', '岳磊')
         handleLogin()
-      } else if (userName === 'liuteng' && password === '123123666') {
+      } else if (userName === 'liuteng' && password === 'liuteng666') {
         window.localStorage.setItem('userName', '刘腾')
         handleLogin()
       } else {

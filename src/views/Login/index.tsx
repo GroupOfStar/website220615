@@ -30,10 +30,10 @@ export default defineComponent({
     const handleFinish = () => {
       const loginName = (state.loginForm.loginName || '').trim()
       const loginPw = (state.loginForm.loginPw || '').trim()
-      if (loginName === 'yuelei' && loginPw === '888888') {
+      if (loginName === 'yuelei' && loginPw === 'yuelei888') {
         window.localStorage.setItem('userName', '岳磊')
         handleLogin()
-      } else if (loginName === 'liuteng' && loginPw === '123123666') {
+      } else if (loginName === 'liuteng' && loginPw === 'liuteng666') {
         window.localStorage.setItem('userName', '刘腾')
         handleLogin()
       } else {
