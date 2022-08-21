@@ -40,12 +40,12 @@ export const workExperiences: WorkExperienceItem[] = [
   { id: 7, startDate: '2017年04月18日', endDate: '2019年05月20日', workUnit: '中信银行大理分行', department: '零售银行部', post: '零售银行部副总经理', rank: '二级分行部门副经理级' },
   { id: 8, startDate: '2019年05月20日', endDate: '2019年08月12日', workUnit: '中信银行大理分行', department: '苍山路支行行长室', post: '负责人（代为履行支行负责人职责）', rank: '二级分行经理级' },
   { id: 9, startDate: '2019年08月12日', endDate: '2021年04月13日', workUnit: '中信银行大理分行', department: '苍山路支行行长室', post: '支行行长', rank: '二级分行副行长级' },
-  { id: 9, startDate: '2021年04月13日', endDate: '2119年11月06日', workUnit: '中信银行大理分行', department: '零售银行部', post: '总经理', rank: '二级分行副行长级' },
+  { id: 9, startDate: '2021年04月13日', endDate: '长期', workUnit: '中信银行大理分行', department: '零售银行部', post: '总经理', rank: '二级分行副行长级' },
 ]
 
 /** 工作经历data */
 export const workExperiences2: WorkExperienceItem[] = [
   { id: "01", startDate: '2012年04月18日', endDate: '2019年01月01日', workUnit: '中信银行大理分行', department: '办公室', post: '综合管理岗', rank: '初级' },
   { id: "02", startDate: '2019年01月01日', endDate: '2020年11月18日', workUnit: '中信银行大理分行', department: '办公室', post: '安全保卫岗', rank: '中级' },
-  { id: "03", startDate: '2020年11月18日', endDate: '2199年11月06日', workUnit: '中信银行大理分行', department: '零售银行部', post: '个贷客户经理岗', rank: '中级' },
+  { id: "03", startDate: '2020年11月18日', endDate: '长期', workUnit: '中信银行大理分行', department: '零售银行部', post: '个贷客户经理岗', rank: '中级' },
 ]
