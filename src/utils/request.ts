@@ -35,7 +35,7 @@ const errorHandler = (error: { response: { data: any; status: number } }) => {
 }
 
 // request interceptor
-request.interceptors.request.use((config: AxiosRequestConfig) => {
+request.interceptors.request.use(config => {
   // 从 localstorage 获取 token
   const token = localStorage.getItem('ACCESS_TOKEN')
   if (token && config.headers) {
